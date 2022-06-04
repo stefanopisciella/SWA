@@ -1,4 +1,7 @@
+package org.univaq.swa.developer.model;
+
 import java.util.List;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -15,9 +18,19 @@ public class Task {
     String descrizione;
     boolean attivo;
     
-    List<Skill> skill_richiesti;
+    List<Skill> skill_richieste;
     List<Utente> collaboratori;
 
+    public Task() {
+        id = 0;
+        nome = "";
+        descrizione = "";
+        attivo = true;
+
+        skill_richieste = new ArrayList<>();
+        collaboratori = new ArrayList<>();
+    }
+    
     public int getId() {
         return id;
     }
@@ -51,11 +64,11 @@ public class Task {
     }
 
     public List<Skill> getSkill_richiesti() {
-        return skill_richiesti;
+        return skill_richieste;
     }
 
     public void setSkill_richiesti(List<Skill> skill_richiesti) {
-        this.skill_richiesti = skill_richiesti;
+        this.skill_richieste = skill_richiesti;
     }
 
     public List<Utente> getCollaboratori() {

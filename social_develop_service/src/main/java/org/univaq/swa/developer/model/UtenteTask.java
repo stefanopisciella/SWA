@@ -1,3 +1,5 @@
+package org.univaq.swa.developer.model;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -13,6 +15,15 @@ public class UtenteTask {
     Utente utente; // l'utente che riceve il voto
     Task task;
 
+    public UtenteTask() {
+        id = 0;
+        voto = null;
+        utente = new Utente();
+        task = new Task();
+    }
+    
+    
+    
     public int getId() {
         return id;
     }

@@ -1,5 +1,6 @@
+package org.univaq.swa.developer.model;
+
 import java.time.LocalDateTime;
-import java.util.List;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -18,6 +19,15 @@ public class Messaggio {
     
     Utente mittente; // Utente che scrive il messaggio
 
+    public Messaggio() {
+        id = 0;
+        testo = "";
+        dataOra = LocalDateTime.now();
+        pubblico = false;    
+
+        mittente = new Utente();
+    }
+    
     public int getId() {
         return id;
     }

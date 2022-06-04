@@ -1,5 +1,4 @@
-import java.util.List;
-
+package org.univaq.swa.developer.model;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -14,6 +13,11 @@ public class Skill {
     int id;
     String nome;
 
+    public Skill() {
+        id = 0;
+        nome = "";
+    }
+    
     public int getId() {
         return id;
     }

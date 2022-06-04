@@ -1,4 +1,7 @@
+package org.univaq.swa.developer.model;
+
 import java.util.List;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -19,6 +22,18 @@ public class Utente {
     String password;
 
     List<Skill> skill; // lista di skill che l'utente possiede
+    
+    public Utente() {
+        id = 0;
+        nome = "";
+        cognome = "";
+        email = "";
+        telefono = "";
+        username = "";
+        password = "";
+
+        skill = new ArrayList<>();
+    }
     
     public int getId() {
         return id;

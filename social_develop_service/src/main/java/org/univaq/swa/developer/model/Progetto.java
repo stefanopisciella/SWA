@@ -1,4 +1,7 @@
+package org.univaq.swa.developer.model;
+
 import java.util.List;
+import java.util.ArrayList;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -17,6 +20,15 @@ public class Progetto {
     List<Task> task;
     List<Messaggio> messaggio; // lista di messaggi postati nel Progetto
 
+    public Progetto () {
+        id = 0;
+        nome = "";
+        descrizione = "";
+
+        task = new ArrayList<>();
+        messaggio = new ArrayList<>();
+    }
+    
     public int getId() {
         return id;
     }
