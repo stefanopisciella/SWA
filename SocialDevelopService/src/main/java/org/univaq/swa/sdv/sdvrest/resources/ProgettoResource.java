@@ -18,10 +18,6 @@ import org.univaq.swa.sdv.sdvrest.security.Logged;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-/**
- *
- * @author nicola
- */
 public class ProgettoResource {
     
     private final Progetto p;
@@ -62,10 +58,9 @@ public class ProgettoResource {
     /***
      * OP 10 - GET[BASE]/progetti/id/tasks
      * @return 
+     * estensione del path e fattorizzazione con classe TasksResource
      */
     @Path("tasks")
-    @GET
-    @Produces("application/json")
     public TasksResource getTasks() {
         
         /*
@@ -83,9 +78,7 @@ public class ProgettoResource {
      * @return 
      */
     @Path("messaggi")
-    @GET
-    @Produces("application/json")
-    public Response getMessages() {
+    public MessaggiResource getMessages() {
         
         /*
         estrazione dei messaggi associati al progetto dal DB
@@ -93,6 +86,7 @@ public class ProgettoResource {
         
         // TODO: costruzione risposta
         //return Response.ok(pIVA).build();
+        return new MessaggiResource();
     }
     
 }

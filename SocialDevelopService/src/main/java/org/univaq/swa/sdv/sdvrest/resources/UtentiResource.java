@@ -17,11 +17,7 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
-        
-/**
- *
- * @author nicola
- */
+
 @Path("utenti")
 public class UtentiResource {
     

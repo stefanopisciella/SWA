@@ -19,10 +19,6 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-/**
- *
- * @author nicola
- */
 
 public class UtenteResource {
     
@@ -109,6 +105,6 @@ public class UtenteResource {
         */
         
         // TODO: costruzione risposta
-        return Response.ok(pIVA).build();
+        //return Response.ok(pIVA).build();
     }
 }

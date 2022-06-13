@@ -19,10 +19,6 @@ import jakarta.ws.rs.PUT;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-/**
- *
- * @author nicola
- */
 public class TasksResource {
     
     private Progetto p;

@@ -20,10 +20,7 @@ import jakarta.ws.rs.PUT;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-/**
- *
- * @author nicola
- */
+
 @Path("progetti")
 public class ProgettiResource {
     
@@ -95,7 +92,11 @@ public class ProgettiResource {
      * @return 
      */
     @Path("{id: [1-9]+}")
-    public UtenteResource getProject(
+    public ProgettoResource getProject(
+            /*
+            il parametro id iniettato va utilizzato per istanziare un oggetto Progetto
+            che servirà per fare la ricerca nel DB, filtrando su id
+            */
             @PathParam("id") int id
     ) {
         

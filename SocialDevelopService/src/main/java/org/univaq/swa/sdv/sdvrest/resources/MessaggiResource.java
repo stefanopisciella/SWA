@@ -20,16 +20,27 @@ import jakarta.ws.rs.PUT;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-/**
- *
- * @author nicola
- */
-
-@Path("messaggi")
 public class MessaggiResource {
     
+    @GET
+    @Produces("application/json")
+    public Response getAll() throws RESTWebApplicationException {
+
+        /*
+        ricerca nel DB dei messaggi relativi al progetto con ID=id
+        */
+        
+        // TODO: da sistemare la costruzione della URL!!
+        URI uri = uriinfo.getBaseUriBuilder()
+                .path(getClass())
+                .path(getClass(), "getItem")
+                .build(f.getData().get(Calendar.YEAR), f.getNumero());
+        
+        return Response.created(uri).build();
+    }
+    
     /***
-     * OP 14 - [BASE]/messaggi
+     * OP 14 - [BASE]/progetti/ID/messaggi
      * @param uriinfo
      * @param m
      * @return

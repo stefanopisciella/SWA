@@ -7,9 +7,15 @@ import java.util.Set;
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
 import org.univaq.swa.sdv.sdvrest.jackson.ObjectMapperContextResolver;
+import org.univaq.swa.sdv.sdvrest.resources.MessaggiResource;
+import org.univaq.swa.sdv.sdvrest.resources.ProgettiResource;
+import org.univaq.swa.sdv.sdvrest.resources.ProgettoResource;
+import org.univaq.swa.sdv.sdvrest.resources.TasksResource;
+import org.univaq.swa.sdv.sdvrest.resources.UtenteResource;
 import org.univaq.swa.sdv.sdvrest.security.AppExceptionMapper;
 import org.univaq.swa.sdv.sdvrest.security.CORSFilter;
 import org.univaq.swa.sdv.sdvrest.resources.UtentiResource;
+import org.univaq.swa.sdv.sdvrest.security.AutenticazioneResource;
 
 /**
  *
@@ -25,7 +31,12 @@ public class RESTApp extends Application {
         //aggiungiamo tutte le *root resurces* (cioè quelle
         //con l'annotazione Path) che vogliamo pubblicare
         c.add(UtentiResource.class);
-        //c.add(AutenticazioneRes.class);
+        c.add(UtenteResource.class);
+        c.add(ProgettiResource.class);
+        c.add(ProgettoResource.class);
+        c.add(MessaggiResource.class);
+        c.add(TasksResource.class);
+        c.add(AutenticazioneResource.class);
 
         //aggiungiamo il provider Jackson per poter
         //usare i suoi servizi di serializzazione e 
