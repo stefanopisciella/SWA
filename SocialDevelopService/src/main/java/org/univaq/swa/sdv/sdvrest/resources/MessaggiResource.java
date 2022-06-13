@@ -107,12 +107,16 @@ public class MessaggiResource {
             System.out.println("inizio: " + inizio);
             System.out.println("fine: " + fine);
             
+            
+            
             if (inizio && fine) {
+                System.out.println("sono qui 1");
                 l.addAll(p.getMessaggi());
                 return Response.ok(l).build();
             }
             
             if (!inizio && !fine){
+                System.out.println("sono qui 2");
                 System.out.println("sono nel caso !inizio && !fine");
                 for (Messaggio m : p.getMessaggi()) {
                     
@@ -121,13 +125,13 @@ public class MessaggiResource {
                     System.out.println(m.getDataOra().toLocalDate().equals(dataInizio));
                     System.out.println(m.getDataOra().toLocalDate().isAfter(dataInizio));
                     
-                    if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio) && 
-                        m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataFine))   l.add(m);
+                    if ((m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio)) && (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataFine))) {l.add(m);}
                 }
                 return Response.ok(l).build();
             }
             
             if (!inizio && fine) {
+                System.out.println("sono qui 3");
                 for (Messaggio m : p.getMessaggi()) {
                     if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio))   l.add(m);
                 }
@@ -135,6 +139,7 @@ public class MessaggiResource {
             }
             
             if (inizio && !fine) {
+                System.out.println("sono qui 4");
                 for (Messaggio m : p.getMessaggi()) {
                     if (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataInizio))   l.add(m);
                 }
