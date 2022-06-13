@@ -56,6 +56,7 @@ public class TasksResource {
         
         // cerca nel DB il task di ID= id
         // ritorna gli utenti associati a quel task
+        return Response.ok().build();
     }
     
 }

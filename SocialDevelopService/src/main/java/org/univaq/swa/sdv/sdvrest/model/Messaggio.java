@@ -2,30 +2,37 @@ package org.univaq.swa.sdv.sdvrest.model;
 
 import java.time.LocalDateTime;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author stefa
  */
 public class Messaggio {
-    int id;
-    String testo;
-    LocalDateTime dataOra;
-    boolean pubblico;
+    private int id;
+    private String testo;
+    private LocalDateTime dataOra;
+    private boolean pubblico;
+    
+    // contatore per autoincrement dell'id
+    private static int cont = 1;
     
     Utente mittente; // Utente che scrive il messaggio
 
     public Messaggio() {
-        id = 0;
+        id = cont;
+        cont++;
         testo = "";
         dataOra = LocalDateTime.now();
         pubblico = false;    
 
         mittente = new Utente();
+    }
+    
+    public Messaggio(String testo, boolean pubblico, LocalDateTime dataOra){
+        id = cont;
+        cont++;
+        this.testo = testo;
+        this.pubblico = pubblico;
+        this.dataOra = dataOra;
     }
     
     public int getId() {

@@ -3,11 +3,6 @@ package org.univaq.swa.sdv.sdvrest.model;
 import java.util.List;
 import java.util.ArrayList;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author stefa
@@ -17,16 +12,24 @@ public class Progetto {
     String nome;
     String descrizione;
     
-    List<Task> task;
-    List<Messaggio> messaggio; // lista di messaggi postati nel Progetto
+    List<Task> tasks;
+    List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
 
     public Progetto () {
         id = 0;
         nome = "";
         descrizione = "";
 
-        task = new ArrayList<>();
-        messaggio = new ArrayList<>();
+        tasks = new ArrayList<>();
+        messaggi = new ArrayList<>();
+    }
+    
+    public Progetto(int id, String nome, String descrizione){
+        this.id = id;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        tasks = new ArrayList<>();
+        messaggi = new ArrayList<>();
     }
     
     public int getId() {
@@ -53,19 +56,19 @@ public class Progetto {
         this.descrizione = descrizione;
     }
 
-    public List<Task> getTask() {
-        return task;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setTask(List<Task> task) {
-        this.task = task;
+    public void setTasks(List<Task> task) {
+        this.tasks = task;
     }
 
-    public List<Messaggio> getMessaggio() {
-        return messaggio;
+    public List<Messaggio> getMessaggi() {
+        return messaggi;
     }
 
-    public void setMessaggio(List<Messaggio> messaggio) {
-        this.messaggio = messaggio;
+    public void setMessaggi(List<Messaggio> messaggio) {
+        this.messaggi = messaggio;
     }
 }

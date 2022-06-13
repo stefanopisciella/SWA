@@ -74,12 +74,13 @@ public class UtentiResource {
         */
         
         // TODO: da sistemare la costruzione della URL!!
-        URI uri = uriinfo.getBaseUriBuilder()
+        /*URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
                 .path(getClass(), "getItem")
                 .build(f.getData().get(Calendar.YEAR), f.getNumero());
         
-        return Response.created(uri).build();
+        return Response.created(uri).build();*/
+        return Response.ok().build();
     }
     
     /**
@@ -97,8 +98,8 @@ public class UtentiResource {
          */
         
         // TODO: sistemare!!
-        Utente u = ...;
-        return new UtenteResource(u);
+        //Utente u = ...;
+        //return new UtenteResource(u);
         
         /*if (anno >= 2020) {
             //...prelevare la fattura f dal sistema...
@@ -108,6 +109,7 @@ public class UtentiResource {
             //throw new RESTWebApplicationException(404, "Fattura non trovata");
             return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
         }*/
+        return null;
     }
     
     //--------------------------------------------------------------------------

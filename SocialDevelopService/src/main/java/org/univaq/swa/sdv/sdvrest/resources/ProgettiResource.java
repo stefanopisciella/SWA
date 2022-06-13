@@ -78,12 +78,13 @@ public class ProgettiResource {
         */
         
         // TODO: da sistemare la costruzione della URL!!
-        URI uri = uriinfo.getBaseUriBuilder()
+        /*URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
                 .path(getClass(), "getItem")
                 .build(f.getData().get(Calendar.YEAR), f.getNumero());
         
-        return Response.created(uri).build();
+        return Response.created(uri).build();*/
+        return Response.ok().build();
     }
     
     /**
@@ -92,21 +93,28 @@ public class ProgettiResource {
      * @return 
      */
     @Path("{id: [1-9]+}")
-    public ProgettoResource getProject(
-            /*
-            il parametro id iniettato va utilizzato per istanziare un oggetto Progetto
-            che servirà per fare la ricerca nel DB, filtrando su id
-            */
-            @PathParam("id") int id
-    ) {
+    public ProgettoResource getProject(@PathParam("id") int id,
+                                       @QueryParam("from") int from,
+                                       @QueryParam("to") int to,
+                                       @QueryParam("dataInizio") String dI,
+                                       @QueryParam("dataFine") String dF) {
+        
+        System.out.println("id come path param: " + id);
+        System.out.println("id == 1: " + (id==1));
+        System.out.println("id == 2: " + (id==2));
+        
+        Progetto p = null;
+        if (id == 1) p = new Progetto(id, "p1", "Progetto p1");
+        if (id == 2) p = new Progetto(id, "p2", "Progetto p2");
+        
         
         /**
          * estrazione del progetto con ID=id dal DB
          */
         
         // TODO: sistemare!!
-        Progetto p = ...;
-        return new ProgettoResource(p);
+        //Progetto p = ...;
+        //return new ProgettoResource(p);
         
         /*if (anno >= 2020) {
             //...prelevare la fattura f dal sistema...
@@ -116,6 +124,8 @@ public class ProgettiResource {
             //throw new RESTWebApplicationException(404, "Fattura non trovata");
             return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
         }*/
+        
+        return new ProgettoResource(p, from, to, dI, dF);
     }
     
 }

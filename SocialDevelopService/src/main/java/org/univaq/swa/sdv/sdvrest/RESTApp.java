@@ -31,11 +31,11 @@ public class RESTApp extends Application {
         //aggiungiamo tutte le *root resurces* (cioè quelle
         //con l'annotazione Path) che vogliamo pubblicare
         c.add(UtentiResource.class);
-        c.add(UtenteResource.class);
+        //c.add(UtenteResource.class);
         c.add(ProgettiResource.class);
-        c.add(ProgettoResource.class);
-        c.add(MessaggiResource.class);
-        c.add(TasksResource.class);
+        //c.add(ProgettoResource.class);
+        //c.add(MessaggiResource.class);
+        //c.add(TasksResource.class);
         c.add(AutenticazioneResource.class);
 
         //aggiungiamo il provider Jackson per poter

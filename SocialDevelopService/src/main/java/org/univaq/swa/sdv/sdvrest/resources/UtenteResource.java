@@ -56,6 +56,7 @@ public class UtenteResource {
             //Modalità 2: incapsulamento in eccezione JAXRS compatibile
             throw new RESTWebApplicationException(e);
         }*/
+        return Response.ok().build();
     }
     
     /***
@@ -106,5 +107,6 @@ public class UtenteResource {
         
         // TODO: costruzione risposta
         //return Response.ok(pIVA).build();
+        return Response.ok().build();
     }
 }

@@ -1,10 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Start Page</title>
+        <title>SDS</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>SDS</h1>
+        <h2>Endpoint richiamabili dal browser (GET)</h2>
+        <ul>
+            <li><a href="OP1">Lista fatture, paginata</a><br/><small><i>rest/fatture?from=1&amp;to=3</i></small></li>
+            <li><a href="OP2">Lista fatture, filtrata</a><br/><small><i>rest/fatture?pIVA=123</i></small></li>
+            <li><a href="OP3">Numero fatture</a><br/><small><i>rest/fatture/count</i></small></li>
+            <li><a href="OP4">Numero fatture per partita IVA</a><br/><small><i>rest/fatture/count?pIVA=123</i></small></li>
+            <li><a href="OP5">Lista fatture di un anno</a><br/><small><i>rest/fatture/2020</i></small></li>
+            <li><a href="OP6">Fattura completa</a><br/><small><i>rest/fatture/2020/1</i></small></li>
+            <li><a href="OP7">Dettaglio partita IVA per fattura</a><br/><small><i>rest/fatture/2020/1/pIVA</i></small></li>
+            <li><a href="OP8">Dettaglio attachment binario per fattura</a><br/><small><i>rest/fatture/2020/1/attachment</i></small></li>
+            <li><a href="OP9">Dettaglio elementi per fattura</a><br/><small><i>rest/fatture/2020/1/elementi</i></small></li>
+            <li><a href="OP10">Dettaglio elemento per fattura</a><br/><small><i>rest/fatture/2020/1/elementi/2</i></small></li>
+            <li><a href="OP11">Lista fatture per codice prodotto</a><br/><small><i>rest/prodotti/12abc/fatture</i></small></li>
+            <li><a href="OP12">Lista fatture per codice prodotto</a><br/><small><i>rest/prodotti/12abc/fatture</i></small></li>
+            <li><a href="rest/progetti/1/messaggi?dataInizio=2021/05/01&dataFine=2021/12/31">OP 13 - Lista messaggi inseriti in un progetto (filtro su data inizio e fine)</a><br/><small><i>rest/progetti/1/messaggi?dataInizio=2021/05/01&amp;dataFine=2021/12/31</i></small></li>
+            <li><a href="OP14">Lista fatture per codice prodotto</a><br/><small><i>rest/prodotti/12abc/fatture</i></small></li>
+        </ul>
     </body>
 </html>

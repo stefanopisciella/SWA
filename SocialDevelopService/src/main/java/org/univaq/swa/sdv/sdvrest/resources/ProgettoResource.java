@@ -16,14 +16,21 @@ import java.util.List;
 import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import java.net.URI;
+import java.time.LocalDate;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 public class ProgettoResource {
     
     private final Progetto p;
+    private int from, to;
+    private String dataInizio, dataFine;
     
-    public ProgettoResource(Progetto p){
+    public ProgettoResource(Progetto p, int from, int to, String dI, String dF){
         this.p = p;
+        this.from = from;
+        this.to = to;
+        this.dataInizio = dI;
+        this.dataFine = dF;
     }
     
     /**
@@ -53,15 +60,18 @@ public class ProgettoResource {
             //Modalità 2: incapsulamento in eccezione JAXRS compatibile
             throw new RESTWebApplicationException(e);
         }*/
+        return Response.ok().build();
     }
     
     /***
      * OP 10 - GET[BASE]/progetti/id/tasks
+     * @param idProgetto
+     * @param id
      * @return 
      * estensione del path e fattorizzazione con classe TasksResource
      */
     @Path("tasks")
-    public TasksResource getTasks() {
+    public TasksResource getTasks(@PathParam("id") int idProgetto) {
         
         /*
         estrazione dei task associati al progetto dal DB
@@ -75,6 +85,7 @@ public class ProgettoResource {
     
     /***
      * OP 13 - GET [BASE]/progetti/id/messaggi
+     * @param idProgetto
      * @return 
      */
     @Path("messaggi")
@@ -86,7 +97,8 @@ public class ProgettoResource {
         
         // TODO: costruzione risposta
         //return Response.ok(pIVA).build();
-        return new MessaggiResource();
+        System.out.println("id nella classe ProgettoResource: " + p.getId());
+        return new MessaggiResource(p, from, to, dataInizio, dataFine);
     }
     
 }
