@@ -46,11 +46,7 @@ public class MessaggiResource {
      */
     @GET
     @Produces("application/json")
-    public Response getAll(/*int idProgetto,
-                            @QueryParam("from") int from,
-                            @QueryParam("to") int to,
-                            @QueryParam("dataInizio") String dI,
-                            @QueryParam("dataFine") String dF*/) throws RESTWebApplicationException {
+    public Response getAll() throws RESTWebApplicationException {
         /*
         Nel test si mette come parametri di query dataInizio=01/05/2021 e dataFine=31/12/2021
         Così il riusltato di questo metodo dovrebbe essere la lista composta da: m2 ed m4
@@ -65,24 +61,8 @@ public class MessaggiResource {
         System.out.println(dataInizio==null);
         System.out.println(dataFine==null);
         
-        System.out.println(dataInizio);
-        System.out.println(dataFine);
-        
         boolean inizio = (dataInizio == null),
                 fine = (dataFine == null);
-        
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        
-        //LocalDate dataInizio = null,
-        //             dataFine = null;
-        
-        /*if (!inizio) {
-            dataInizio = LocalDate.parse(dI, formatter);
-        }
-        
-        if (!fine) {
-            dataFine = LocalDate.parse(dF, formatter);
-        }*/
         
         // pubblici
         Messaggio m1 = new Messaggio("m1", true, LocalDateTime.of(2021, Month.MARCH, 12, 22, 10));
@@ -104,34 +84,19 @@ public class MessaggiResource {
             p.getMessaggi().add(m2);
             p.getMessaggi().add(m4);
             
-            System.out.println("inizio: " + inizio);
-            System.out.println("fine: " + fine);
-            
-            
-            
             if (inizio && fine) {
-                System.out.println("sono qui 1");
                 l.addAll(p.getMessaggi());
                 return Response.ok(l).build();
             }
             
             if (!inizio && !fine){
-                System.out.println("sono qui 2");
-                System.out.println("sono nel caso !inizio && !fine");
                 for (Messaggio m : p.getMessaggi()) {
-                    
-                    System.out.println(m.getDataOra().toLocalDate());
-                    System.out.println(dataInizio);
-                    System.out.println(m.getDataOra().toLocalDate().equals(dataInizio));
-                    System.out.println(m.getDataOra().toLocalDate().isAfter(dataInizio));
-                    
                     if ((m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio)) && (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataFine))) {l.add(m);}
                 }
                 return Response.ok(l).build();
             }
             
             if (!inizio && fine) {
-                System.out.println("sono qui 3");
                 for (Messaggio m : p.getMessaggi()) {
                     if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio))   l.add(m);
                 }
@@ -139,7 +104,6 @@ public class MessaggiResource {
             }
             
             if (inizio && !fine) {
-                System.out.println("sono qui 4");
                 for (Messaggio m : p.getMessaggi()) {
                     if (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataInizio))   l.add(m);
                 }

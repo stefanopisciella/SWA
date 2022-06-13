@@ -106,25 +106,6 @@ public class ProgettiResource {
         Progetto p = null;
         if (id == 1) p = new Progetto(id, "p1", "Progetto p1");
         if (id == 2) p = new Progetto(id, "p2", "Progetto p2");
-        
-        
-        /**
-         * estrazione del progetto con ID=id dal DB
-         */
-        
-        // TODO: sistemare!!
-        //Progetto p = ...;
-        //return new ProgettoResource(p);
-        
-        /*if (anno >= 2020) {
-            //...prelevare la fattura f dal sistema...
-            Fattura f = Fattura.dummyFattura(numero, anno);
-            return new UtenteResource(f);
-        } else {
-            //throw new RESTWebApplicationException(404, "Fattura non trovata");
-            return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
-        }*/
-        
         return new ProgettoResource(p, from, to, dI, dF);
     }
     

@@ -90,14 +90,6 @@ public class ProgettoResource {
      */
     @Path("messaggi")
     public MessaggiResource getMessages() {
-        
-        /*
-        estrazione dei messaggi associati al progetto dal DB
-        */
-        
-        // TODO: costruzione risposta
-        //return Response.ok(pIVA).build();
-        System.out.println("id nella classe ProgettoResource: " + p.getId());
         return new MessaggiResource(p, from, to, dataInizio, dataFine);
     }
     
