@@ -71,4 +71,14 @@ public class Progetto {
     public void setMessaggi(List<Messaggio> messaggio) {
         this.messaggi = messaggio;
     }
+    
+    public static Progetto dummyProgetto (int id, String nome, String descrizione) {
+        
+        Progetto p = new Progetto();
+        p.setId(id);
+        p.setNome(nome);
+        p.setDescrizione(descrizione);
+        
+        return p;
+    }
 }
