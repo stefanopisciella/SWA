@@ -13,6 +13,10 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import java.util.List;
+
+import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
+import org.univaq.swa.sdv.sdvrest.model.Utente;
 
 /**
  *
@@ -31,7 +35,7 @@ public class AutenticazioneResource {
             @FormParam("password") String password) {
         try {
             if (authenticate(username, password)) {
-                /* per esempio */
+                // caso in cui l'AUTENTICAZIONE ha avuto SUCCESSO
                 String authToken = issueToken(uriinfo, username);
 
                 //return Response.ok(authToken).build();
@@ -39,9 +43,10 @@ public class AutenticazioneResource {
                 //return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
                 //Restituiamolo in tutte le modalità, giusto per fare un esempio..
                 return Response.ok(authToken)
-                        .cookie(new NewCookie("token", authToken))
+                      //.cookie(new NewCookie("token", authToken))
                         .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
             } else {
+                // caso in cui l'AUTENTICAZIONE NON ha avuto SUCCESSO
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
         } catch (Exception e) {
@@ -66,8 +71,13 @@ public class AutenticazioneResource {
     }
 
     private boolean authenticate(String username, String password) {
-        /* autenticare! */
-        return true;
+        List<Utente> listaUtenti = UtenteManager.utenti;
+        for(Utente utente : listaUtenti) {
+            if(username.equals(utente.getUsername()) && password.equals(utente.getPassword())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private String issueToken(UriInfo context, String username) {
