@@ -26,14 +26,6 @@ public class Messaggio {
         //mittente = new Utente();
     }
     
-    public Messaggio(String testo, boolean pubblico, LocalDateTime dataOra){
-        id = cont;
-        cont++;
-        this.testo = testo;
-        this.pubblico = pubblico;
-        this.dataOra = dataOra;
-    }
-    
     public int getId() {
         return id;
     }
