@@ -14,7 +14,7 @@ public class Task {
     private boolean attivo;
     private static int cont = 1;
     
-    //List<Skill> skill_richieste;
+    List<Skill> skill_richieste;
     List<Utente> collaboratori;
 
     public Task() {
@@ -25,7 +25,7 @@ public class Task {
         descrizione = "";
         attivo = true;
 
-        //skill_richieste = new ArrayList<>();
+        skill_richieste = new ArrayList<>();
         collaboratori = new ArrayList<>();
     }
     
