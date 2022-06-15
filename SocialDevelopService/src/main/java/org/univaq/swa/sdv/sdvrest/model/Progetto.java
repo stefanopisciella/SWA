@@ -14,20 +14,17 @@ public class Progetto {
     
     List<Task> tasks;
     List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
+    
+    // contatore per autoincrement dell'id
+    private static int cont = 1;
 
     public Progetto () {
-        id = 0;
+        id = cont;
+        cont++;
+        
         nome = "";
         descrizione = "";
 
-        tasks = new ArrayList<>();
-        messaggi = new ArrayList<>();
-    }
-    
-    public Progetto(int id, String nome, String descrizione){
-        this.id = id;
-        this.nome = nome;
-        this.descrizione = descrizione;
         tasks = new ArrayList<>();
         messaggi = new ArrayList<>();
     }

@@ -171,12 +171,25 @@ public class SDSREST_Client {
         // 12
         
         // 13
+        System.out.println("+++ OPERAZIONE 13 +++");
         HttpGet get_request = new HttpGet(baseURI + "/progetti/1/messaggi?dataInizio=01/05/2021&amp;dataFine=31/12/2021");
         get_request.setHeader("Accept", "application/json");
         execute_and_dump(get_request);
+        System.out.println();
         
         // 14
-
+        System.out.println("+++ OPERAZIONE 14 +++");
+        HttpPost post_request = new HttpPost(baseURI + "/progetti/2/messaggi");
+        //per una richiesta POST, prepariamo anche il payload specificandone il tipo
+        
+        String jsonEntry14 = "\"utente\": {\"nome\": \"string\",\"cognome\": \"string\",\"URL\": \"string\"},\"testo\": \"string\",\"data\": \"2022-06-14\"}";
+        
+        HttpEntity payload = new StringEntity(jsonEntry14, ContentType.APPLICATION_JSON);
+        //e lo inseriamo nella richiesta
+        post_request.setEntity(payload);
+        execute_and_dump(post_request);
+        System.out.println();
+        
         /*   
 
         System.out.println();

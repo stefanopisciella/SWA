@@ -21,10 +21,9 @@ public class Messaggio {
         id = cont;
         cont++;
         testo = "";
-        dataOra = LocalDateTime.now();
-        pubblico = false;    
-
-        mittente = new Utente();
+        //dataOra = LocalDateTime.now();
+        pubblico = false;
+        //mittente = new Utente();
     }
     
     public Messaggio(String testo, boolean pubblico, LocalDateTime dataOra){

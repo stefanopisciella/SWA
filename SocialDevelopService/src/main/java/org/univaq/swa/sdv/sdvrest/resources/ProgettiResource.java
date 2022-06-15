@@ -99,13 +99,20 @@ public class ProgettiResource {
                                        @QueryParam("dataInizio") String dI,
                                        @QueryParam("dataFine") String dF) {
         
-        System.out.println("id come path param: " + id);
-        System.out.println("id == 1: " + (id==1));
-        System.out.println("id == 2: " + (id==2));
-        
         Progetto p = null;
-        if (id == 1) p = new Progetto(id, "p1", "Progetto p1");
-        if (id == 2) p = new Progetto(id, "p2", "Progetto p2");
+        if (id == 1) {
+            p = new Progetto();
+            p.setId(id);
+            p.setNome("p1");
+            p.setDescrizione("Progetto p1");
+        }
+        
+        if (id == 2) {
+            p = new Progetto();
+            p.setId(id);
+            p.setNome("p2");
+            p.setDescrizione("Progetto p2");
+        }
         return new ProgettoResource(p, from, to, dI, dF);
     }
     

@@ -21,6 +21,7 @@ import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import org.univaq.swa.sdv.sdvrest.data.MessaggioManager;
 
 public class MessaggiResource {
     
@@ -57,24 +58,45 @@ public class MessaggiResource {
         Suppongo di avere 2 progetti, p1 e p2
         In p1 ci sono 2 messaggi pubblici e 1 privato e in p2 c'è 1 messaggio pubblico e 1 privato
         */
-        
-        System.out.println(dataInizio==null);
-        System.out.println(dataFine==null);
-        
         boolean inizio = (dataInizio == null),
                 fine = (dataFine == null);
         
         // pubblici
-        Messaggio m1 = new Messaggio("m1", true, LocalDateTime.of(2021, Month.MARCH, 12, 22, 10));
-        Messaggio m2 = new Messaggio("m2", true, LocalDateTime.of(2021, Month.JULY, 23, 10, 00));
-        Messaggio m3 = new Messaggio("m3", true, LocalDateTime.of(2021, Month.DECEMBER, 1, 16, 19));
+        Messaggio m1 = new Messaggio();
+        m1.setPubblico(true);
+        m1.setTesto("messaggio 1");
+        m1.setDataOra(LocalDateTime.of(2021, Month.MARCH, 12, 22, 10));
+        // TODO: aggiungere mittente
+        //m1.setMittente(mittente);
+        
+        Messaggio m2 = new Messaggio();
+        m2.setPubblico(true);
+        m2.setTesto("messaggio 2");
+        m2.setDataOra(LocalDateTime.of(2021, Month.JULY, 23, 10, 00));
+        // TODO: aggiungere mittente
+
+        Messaggio m3 = new Messaggio();
+        m3.setPubblico(true);
+        m3.setTesto("messaggio 3");
+        m3.setDataOra(LocalDateTime.of(2021, Month.DECEMBER, 1, 16, 19));
+        // TODO: aggiungere mittente
         
         // privati
-        Messaggio m4 = new Messaggio("m4", false, LocalDateTime.of(2021, Month.MAY, 24, 22, 10));
-        Messaggio m5 = new Messaggio("m5", false, LocalDateTime.of(2021, Month.APRIL, 20, 11, 17));
+        Messaggio m4 = new Messaggio();
+        m4.setPubblico(false);
+        m4.setTesto("messaggio 4");
+        m4.setDataOra(LocalDateTime.of(2021, Month.MAY, 24, 22, 10));
+        // TODO: aggiungere mittente
+        
+        Messaggio m5 = new Messaggio();
+        m5.setPubblico(false);
+        m5.setTesto("messaggio 5");
+        m5.setDataOra(LocalDateTime.of(2021, Month.APRIL, 20, 11, 17));
+        // TODO: aggiungere mittente
+        
+        // TODO: aggiungere controllo per autenticazione
         
         // aggiunta messaggi nei rispettivi progetti
-        
         ArrayList<Messaggio> l = new ArrayList<>();
         
         // in base all'id passato (che può essere 1 o 2) restituisco la Response contente la lista di messaggi relativi a quel progetto
@@ -155,30 +177,28 @@ public class MessaggiResource {
      * @return
      * @throws RESTWebApplicationException 
      */
-    /*@Logged
+    @Logged
     @POST
     @Consumes("application/json")
     public Response addMessage(
             @Context UriInfo uriinfo,
-            Messaggio m,
-            int idProgetto) throws RESTWebApplicationException {
+            Messaggio m/*,
+            int idProgetto*/) throws RESTWebApplicationException {
 
         /*
         Inserimento nuovo messaggio nel sistema
         */
+        //MessaggioManager.getInstance().getMessaggi().add(m);
         
+        p.getMessaggi().add(m);
         /*
         Costruzione della URL di risposta per il messaggio appena inserito
         */
-        
-        // TODO: da sistemare la costruzione della URL!!
-        /*URI uri = uriinfo.getBaseUriBuilder()
+        URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
-                .path(getClass(), "getItem")
-                .build(f.getData().get(Calendar.YEAR), f.getNumero());
+                .path(getClass(), "addMessage")
+                .build(p.getId(), m.getId());
         
-        return Response.created(uri).build();*/
-    /*
-        return Response.ok().build();
-    }*/
+        return Response.created(uri).build();
+    }
 }
