@@ -18,6 +18,8 @@ import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 
@@ -28,6 +30,7 @@ public class ProgettiResource {
      * OP 7 - GET[BASE]/progetti
      * Metodo per l'estrazione di tutti i progetti nel sistema,
      * con filtri opzionali su nome e skills (massimo 2)
+     * @param uriinfo
      * @param nome
      * @param s1
      * @param s2
@@ -37,21 +40,46 @@ public class ProgettiResource {
      * @throws RESTWebApplicationException 
      */
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll(
+    @Produces("application/json")
+    public List<Map<String, Object>> getAll(
+            @Context UriInfo uriinfo,
             @QueryParam("nome") String nome,
             @QueryParam("skill1") String s1,
             @QueryParam("skill2") String s2,
-            @QueryParam("from") String from,
-            @QueryParam("to") String to) throws RESTWebApplicationException {
-
-        List<String> l = new ArrayList();
+            @QueryParam("from") Integer from,
+            @QueryParam("to") Integer to) throws RESTWebApplicationException {
         
-        /**
-         * riempire lista con oggetti 'progetti' e ritornarla
-         */
+        if (from == null) {
+            from = 1;
+        }
+        if (to == null) {
+            to = 10; 
+        }
+        if (from > to) { 
+            int swap = from;
+            from = to;
+            to = swap;
+        }     
+        
+        //per i che va da from a to creo oggetti di tipo Progetto
+        
+        List<Map<String, Object>> listaProgetti = new ArrayList();
+        for (int i = from; i <= to; ++i) {
+            Progetto p = Progetto.dummyProgetto(i, "p" + i, "d" + i);
+            Map<String, Object> progetto = new HashMap<>();
+            progetto.put("nome", p.getNome());
+            progetto.put("descrizione", p.getDescrizione());
 
-        return Response.ok(l).build();
+        // creazione url per vedere il dettaglio
+            URI uri = uriinfo.getBaseUriBuilder()
+                    .path(getClass())
+                    .path(getClass(), "getProject")
+                    .build(i);
+            progetto.put("url", uri.toString());
+            listaProgetti.add(progetto);
+        }
+
+        return listaProgetti;
     }
     
     /***
@@ -65,31 +93,27 @@ public class ProgettiResource {
     @Logged
     @POST
     @Consumes("application/json")
-    public Response addProject(
-            @Context UriInfo uriinfo,
+    public Response addProject(@Context UriInfo uriinfo,
             Progetto p) throws RESTWebApplicationException {
 
-        /*
-        Inserimento nuovo progetto nel sistema
-        */
+        //creo il nuovo progetto
+        Progetto nuovoProg = Progetto.dummyProgetto(p.getId(), p.getNome(), p.getDescrizione());
         
-        /*
-        Costruzione della URL di risposta per il progetto appena inserito
-        */
-        
-        // TODO: da sistemare la costruzione della URL!!
-        /*URI uri = uriinfo.getBaseUriBuilder()
+        URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
-                .path(getClass(), "getItem")
-                .build(f.getData().get(Calendar.YEAR), f.getNumero());
+                .path(getClass(), "getProject")
+                .build(nuovoProg.getId());
         
-        return Response.created(uri).build();*/
-        return Response.ok().build();
+        return Response.created(uri).build();
     }
     
     /**
      * Estensione del path per gestire le operazioni su singolo progetto
      * @param id
+     * @param from
+     * @param to
+     * @param dI
+     * @param dF
      * @return 
      */
     @Path("{id: [1-9]+}")

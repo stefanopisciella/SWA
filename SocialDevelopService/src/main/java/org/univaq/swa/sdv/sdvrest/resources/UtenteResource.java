@@ -17,6 +17,7 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
+import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 
@@ -61,17 +62,16 @@ public class UtenteResource {
     
     /***
      * OP 5 - PUT [BASE]/utenti/id
-     * @param u
+     * @param utente_nuovo
      * @return 
      */
     @Logged
     @PUT
     @Consumes("application/json")
-    public Response updateUser(Utente u) {
+    public Response updateUser(Utente utente_nuovo) {
         
-        /*
-        aggiornamento dati dell'utente  con l'input u
-        */
+        UtenteManager.utenti.remove(u);
+        UtenteManager.utenti.add(utente_nuovo);
         
         return Response.noContent().build();
     }
@@ -85,9 +85,10 @@ public class UtenteResource {
     @Produces("application/json")
     public Response deleteUser() {
         
-        /*
-        eliminazione utente
-        */
+        // rimuovo dalla lista di utenti del sistema l'utente u se l'ID esiste (?)
+        if(u.getId() > 0) {
+            UtenteManager.utenti.remove(u);
+        }
         
         return Response.noContent().build();
     }
