@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.Provider;
+import org.univaq.swa.sdv.sdvrest.data.TokenManager;
 
 /**
  *
@@ -30,26 +31,21 @@ public class LoggedFilter implements ContainerRequestFilter {
         String token = null;
         final String path = requestContext.getUriInfo().getAbsolutePath().toString();
         
-        //come esempio, proviamo a cercare il token in vari punti, in ordine di priorità
-        //in un'applicazione reale, potremmo scegliere una sola modalità
+        // controllo se è presente il token all'intero dell'AUTORIZATION HEADER
         String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring("Bearer".length()).trim();
-        } else if (requestContext.getCookies().containsKey("token")) {
-            token = requestContext.getCookies().get("token").getValue();
-        } else if (requestContext.getUriInfo().getQueryParameters().containsKey("token")) {
-            token = requestContext.getUriInfo().getQueryParameters().getFirst("token");
-        }
+       
         if (token != null && !token.isEmpty()) {
             try {
-                //validiamo il token
-                final String user = validateToken(token);
-                if (user != null) {
+                final Integer userID = validateToken(token);
+                if (userID != null) {
                     //inseriamo nel contesto i risultati dell'autenticazione
                     //per farli usare dai nostri metodi restful
                     //iniettando @Context ContainerRequestContext
                     requestContext.setProperty("token", token);
-                    requestContext.setProperty("user", user);
+                    requestContext.setProperty("IDutente", userID);
+                    /*
                     //OPPURE
                     // https://dzone.com/articles/custom-security-context-injax-rs
                     //mettiamo i dati anche nel securitycontext standard di JAXRS...
@@ -78,7 +74,7 @@ public class LoggedFilter implements ContainerRequestFilter {
                         public String getAuthenticationScheme() {
                             return "Token-Based-Auth-Scheme";
                         }
-                    });
+                    }); */
 
                 } else {
                     //se non va bene... 
@@ -90,14 +86,21 @@ public class LoggedFilter implements ContainerRequestFilter {
         } else {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
         }
+        }
     }
 
-    private String validateToken(String token) {
-//      //JWT                
-//      Key key = AppGlobals.getInstance().getJwtKey();
-//      Jws<Claims> jwsc = Jwts.parser().setSigningKey(key).parseClaimsJws(token);
-//      return jwsc.getBody().getSubject();
-        return "pippo"; //andrebbe derivato dal token!
+    private Integer validateToken(String token) {
+        int userID;
+
+        for(String t : TokenManager.tokens)
+            if (t.equals(token)) {
+                // il token è stato definito come concatenazione di un UUID (stringa fissa di 36 caratteri) e di un userID: per questo
+                // motivo lo userID coincide con la sottostringa di token che inizia dal suo 35° carattere e che finisce con l'ultimo 
+                // carattere del token
+                userID = Integer.parseInt(token.substring(35, token.length() - 1));
+                return userID; // caso in cui il token è valido e quindi è possibile estrarre lo userID dell'Utente 
+            }
+        return null; // caso in cui il token non è stato trovato all'interno del TokenManager
     }
 
 }

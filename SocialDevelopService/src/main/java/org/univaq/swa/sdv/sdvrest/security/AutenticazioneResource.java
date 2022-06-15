@@ -13,7 +13,9 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.NewCookie;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import java.util.Iterator;
 import java.util.List;
+import org.univaq.swa.sdv.sdvrest.data.TokenManager;
 
 import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 import org.univaq.swa.sdv.sdvrest.model.Utente;
@@ -34,17 +36,20 @@ public class AutenticazioneResource {
             @FormParam("username") String username,
             @FormParam("password") String password) {
         try {
-            if (authenticate(username, password)) {
+            Integer userID = authenticate(username, password);
+            
+            // il metodo "authenticate" ritorna null se l'autenticazione non ha avuto successo, in caso contrario ritorna un intero
+            // che indica l'ID del client che intende autenticarsi
+            if (userID != null) {
                 // caso in cui l'AUTENTICAZIONE ha avuto SUCCESSO
-                String authToken = issueToken(uriinfo, username);
+                String authToken = issueToken(userID);
 
                 //return Response.ok(authToken).build();
                 //return Response.ok().cookie(new NewCookie("token", authToken)).build();
                 //return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
                 //Restituiamolo in tutte le modalità, giusto per fare un esempio..
-                return Response.ok(authToken)
+                return Response.ok(authToken).header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
                       //.cookie(new NewCookie("token", authToken))
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
             } else {
                 // caso in cui l'AUTENTICAZIONE NON ha avuto SUCCESSO
                 return Response.status(Response.Status.UNAUTHORIZED).build();
@@ -60,6 +65,7 @@ public class AutenticazioneResource {
     public Response doLogout(@Context HttpServletRequest request) {
         try {
             //estraiamo i dati inseriti dal nostro LoggedFilter...
+            // TO CHECK
             String token = (String) request.getAttribute("token");
             if (token != null) {
                 revokeToken(token);
@@ -70,34 +76,32 @@ public class AutenticazioneResource {
         }
     }
 
-    private boolean authenticate(String username, String password) {
+    private Integer authenticate(String username, String password) {
         List<Utente> listaUtenti = UtenteManager.utenti;
         for(Utente utente : listaUtenti) {
             if(username.equals(utente.getUsername()) && password.equals(utente.getPassword())){
-                return true;
+                return utente.getId();
             }
         }
-        return false;
+        return null; // caso in cui l'AUTENTICAZIONE ha avuto SUCCESSO
     }
 
-    private String issueToken(UriInfo context, String username) {
-        /* registrare il token e associarlo all'utenza */
-        String token = username + UUID.randomUUID().toString();
-        /* per esempio */
-
-//        JWT        
-//        Key key = JWTHelpers.getInstance().getJwtKey();
-//        String token = Jwts.builder()
-//                .setSubject(username)
-//                .setIssuer(context.getAbsolutePath().toString())
-//                .setIssuedAt(new Date())
-//                .setExpiration(Date.from(LocalDateTime.now().plusMinutes(15L).atZone(ZoneId.systemDefault()).toInstant()))
-//                .signWith(key)
-//                .compact();
+    // metodo per generare il token
+    private String issueToken(int userID) {
+        String token = UUID.randomUUID().toString() + userID;
+        TokenManager.tokens.add(token);
         return token;
     }
 
     private void revokeToken(String token) {
-        /* invalidate il token */
+        List<String> listaTokens = TokenManager.tokens; 
+        Iterator<String> it = listaTokens.iterator();
+        
+        // rimuovo il token dalla lista di token presente in TokenManager
+        while(it.hasNext()) {
+            if(token.equals(it.next())) {
+                it.remove();
+            }
+        }
     }
 }
