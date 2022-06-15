@@ -34,7 +34,7 @@ public class MessaggiResource {
         this.from = from;
         this.to = to;
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if (dI != null) dataInizio = LocalDate.parse(dI, formatter);
         if (dF != null) dataFine = LocalDate.parse(dF, formatter);
     }
