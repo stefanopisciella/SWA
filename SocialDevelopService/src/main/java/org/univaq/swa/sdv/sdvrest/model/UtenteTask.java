@@ -10,13 +10,15 @@ package org.univaq.swa.sdv.sdvrest.model;
  * @author stefa
  */
 public class UtenteTask {
-    int id;
-    Integer voto;
-    Utente utente; // l'utente che riceve il voto
-    Task task;
+    private int id;
+    private Integer voto;
+    private Utente utente; // l'utente che riceve il voto
+    private Task task;
+    private static int cont = 1;
 
     public UtenteTask() {
-        id = 0;
+        id = cont;
+        cont++;
         voto = null;
         utente = new Utente();
         task = new Task();

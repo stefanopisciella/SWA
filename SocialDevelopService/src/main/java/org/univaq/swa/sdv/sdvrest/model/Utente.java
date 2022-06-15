@@ -13,18 +13,20 @@ import java.util.ArrayList;
  * @author stefa
  */
 public class Utente {
-    int id;
-    String nome;
-    String cognome;
-    String email;
-    String telefono;
-    String username;
-    String password;
+    private int id;
+    private String nome;
+    private String cognome;
+    private String email;
+    private String telefono;
+    private String username;
+    private String password;
+    private static int cont = 1;
 
     List<Skill> skill; // lista di skill che l'utente possiede
     
     public Utente() {
-        id = 0;
+        id = cont;
+        cont++;
         nome = "";
         cognome = "";
         email = "";

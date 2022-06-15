@@ -34,7 +34,17 @@ public class TasksResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() throws RESTWebApplicationException {
-
+        
+        
+        
+        if (p.getId() == 1) {
+            
+        }
+        
+        if (p.getId() == 2) {
+            
+        }
+                
         List<String> l = new ArrayList();
         
         /**

@@ -8,15 +8,13 @@ import java.util.ArrayList;
  * @author stefa
  */
 public class Progetto {
-    int id;
-    String nome;
-    String descrizione;
+    private int id;
+    private String nome;
+    private String descrizione;
+    private static int cont = 1;
     
     List<Task> tasks;
     List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
-    
-    // contatore per autoincrement dell'id
-    private static int cont = 1;
 
     public Progetto () {
         id = cont;

@@ -3,31 +3,29 @@ package org.univaq.swa.sdv.sdvrest.model;
 import java.util.List;
 import java.util.ArrayList;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author stefa
  */
 public class Task {
-    int id;
-    String nome;
-    String descrizione;
-    boolean attivo;
+    private int id;
+    private String nome;
+    private String descrizione;
+    private boolean attivo;
+    private static int cont = 1;
     
-    List<Skill> skill_richieste;
+    //List<Skill> skill_richieste;
     List<Utente> collaboratori;
 
     public Task() {
-        id = 0;
+        id = cont;
+        cont++;
+        
         nome = "";
         descrizione = "";
         attivo = true;
 
-        skill_richieste = new ArrayList<>();
+        //skill_richieste = new ArrayList<>();
         collaboratori = new ArrayList<>();
     }
     
@@ -61,14 +59,6 @@ public class Task {
 
     public void setAttivo(boolean attivo) {
         this.attivo = attivo;
-    }
-
-    public List<Skill> getSkill_richiesti() {
-        return skill_richieste;
-    }
-
-    public void setSkill_richiesti(List<Skill> skill_richiesti) {
-        this.skill_richieste = skill_richiesti;
     }
 
     public List<Utente> getCollaboratori() {

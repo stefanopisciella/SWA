@@ -65,13 +65,12 @@ public class ProgettoResource {
     
     /***
      * OP 10 - GET[BASE]/progetti/id/tasks
-     * @param idProgetto
-     * @param id
+     * @param p
      * @return 
      * estensione del path e fattorizzazione con classe TasksResource
      */
     @Path("tasks")
-    public TasksResource getTasks(@PathParam("id") int idProgetto) {
+    public TasksResource getTasks() {
         
         /*
         estrazione dei task associati al progetto dal DB
@@ -79,8 +78,7 @@ public class ProgettoResource {
         
         // TODO: costruzione risposta
         //return Response.ok(pIVA).build();
-        Progetto p = new Progetto();
-        return new TasksResource(p);
+        return new TasksResource(this.p);
     }
     
     /***
