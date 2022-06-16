@@ -22,4 +22,8 @@ public class RESTWebApplicationException extends WebApplicationException {
                 .type("text/plain")
                 .build());
     }
+
+    public RESTWebApplicationException(Exception e) {
+        this(500,e.getMessage());
+    }
 }
