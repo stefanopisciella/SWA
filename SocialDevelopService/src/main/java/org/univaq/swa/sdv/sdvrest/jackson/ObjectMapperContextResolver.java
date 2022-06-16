@@ -4,9 +4,10 @@ package org.univaq.swa.sdv.sdvrest.jackson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.util.Calendar;
+import java.time.*;
 import jakarta.ws.rs.ext.ContextResolver;
 import jakarta.ws.rs.ext.Provider;
+import org.univaq.swa.sdv.sdvrest.model.Messaggio;
 
 /**
  *
@@ -33,8 +34,11 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
         SimpleModule customSerializer = new SimpleModule("CustomSerializersModule");
 
         //configuriamo i nostri serializzatori custom
-        customSerializer.addSerializer(Calendar.class, new JavaCalendarSerializer());
-        customSerializer.addDeserializer(Calendar.class, new JavaCalendarDeserializer());
+        //customSerializer.addSerializer(Calendar.class, new JavaCalendarSerializer());
+        //customSerializer.addDeserializer(Calendar.class, new JavaCalendarDeserializer());
+        customSerializer.addSerializer(LocalDateTime.class, new JavaLocalDateTimeSerializer());
+        //customSerializer.addDeserializer(LocalDate.class, new JavaLocalDateDeserializer());
+        //customSerializer.addSerializer(Messaggio.class, new MessaggioSerializer());
 
         mapper.registerModule(customSerializer);
 
