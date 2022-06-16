@@ -53,7 +53,7 @@ public class MessaggiResource {
         m1.setPubblico(false);
         m1.setTesto("messaggio 1");
         m1.setDataOra(LocalDateTime.of(2021, Month.MAY, 24, 22, 10));
-        Utente u1 = new Utente();
+        UtenteMinimale u1 = new UtenteMinimale();
         u1.setNome("Hanna");
         u1.setCognome("Garcia");
         u1.setEmail("hgar@mail.com");
@@ -63,11 +63,11 @@ public class MessaggiResource {
         m2.setPubblico(true);
         m2.setTesto("messaggio 2");
         m2.setDataOra(LocalDateTime.of(2021, Month.JULY, 23, 10, 05));
-        Utente u2 = new Utente();
+        UtenteMinimale u2 = new UtenteMinimale();
         u2.setNome("James");
         u2.setCognome("Benway");
         u2.setEmail("jem_ben@mail.com");
-        m1.setMittente(u2);
+        m2.setMittente(u2);
         
         ArrayList<Messaggio> messaggi = new ArrayList<>();
         messaggi.add(m1);

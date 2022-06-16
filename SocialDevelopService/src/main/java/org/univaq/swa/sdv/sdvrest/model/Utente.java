@@ -1,5 +1,7 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class Utente {
         skill = new ArrayList<>();
     }
     
+    @JsonIgnore
     public int getId() {
         return id;
     }
@@ -85,10 +88,12 @@ public class Utente {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

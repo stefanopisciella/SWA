@@ -18,6 +18,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.WebApplicationException;
 import java.net.URI;
+import javassist.NotFoundException;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 public class TasksResource {
@@ -35,6 +36,8 @@ public class TasksResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() throws RESTWebApplicationException {
+        
+       if (p.getId() == 2) throw new RESTWebApplicationException(new NotFoundException("progetto inesistente"));
         
        Task t1 = new Task();
        t1.setNome("task 1");
@@ -64,7 +67,27 @@ public class TasksResource {
     @Produces("application/json")
     public Response getCollabs(@PathParam("id") int idTask) throws WebApplicationException {
         
-        return Response.ok().build();
+        UtenteMinimale u1 = new UtenteMinimale();
+        u1.setNome("Oliver");
+        u1.setCognome("Bone");
+        u1.setEmail("oliver_bone_55412@mail.com");
+        
+        UtenteMinimale u2 = new UtenteMinimale();
+        u2.setNome("Nancy");
+        u2.setCognome("Crowford");
+        u2.setEmail("nanCro@mail.com");
+        
+        UtenteMinimale u3 = new UtenteMinimale();
+        u3.setNome("Thomsa");
+        u3.setCognome("Bell");
+        u3.setEmail("tb1234@mail.com");
+        
+        ArrayList<UtenteMinimale> res = new ArrayList<>();
+        res.add(u1);
+        res.add(u2);
+        res.add(u3);
+        
+        return Response.ok(res).build();
     }
     
 }

@@ -1,5 +1,6 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class Task {
     private static int cont = 1;
     
     List<Skill> skill_richieste;
-    List<Utente> collaboratori;
+    List<UtenteMinimale> collaboratori;
 
     public Task() {
         id = cont;
@@ -61,11 +62,12 @@ public class Task {
         this.attivo = attivo;
     }
 
-    public List<Utente> getCollaboratori() {
+    @JsonIgnore
+    public List<UtenteMinimale> getCollaboratori() {
         return collaboratori;
     }
 
-    public void setCollaboratori(List<Utente> collaboratori) {
+    public void setCollaboratori(List<UtenteMinimale> collaboratori) {
         this.collaboratori = collaboratori;
     }
 }

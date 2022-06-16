@@ -2,6 +2,7 @@ package org.univaq.swa.sdv.sdvrest.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
@@ -20,17 +21,14 @@ import java.time.LocalDateTime;
 
 public class Messaggio {
     private int id;
-    //@JsonProperty
     private String testo;
-    //@JsonProperty
     private LocalDateTime dataOra;
-    //@JsonProperty
     private boolean pubblico;
     
     // contatore per autoincrement dell'id
     private static int cont = 1;
     
-    Utente mittente; // Utente che scrive il messaggio
+    UtenteMinimale mittente; // Utente che scrive il messaggio
 
     public Messaggio() {
         id = cont;
@@ -41,10 +39,12 @@ public class Messaggio {
         //mittente = new Utente();
     }
     
+    @JsonIgnore
     public int getId() {
         return id;
     }
 
+    @JsonProperty
     public void setId(int id) {
         this.id = id;
     }
@@ -65,19 +65,21 @@ public class Messaggio {
         this.dataOra = dataOra;
     }
 
+    @JsonIgnore
     public boolean isPubblico() {
         return pubblico;
     }
 
+    @JsonProperty
     public void setPubblico(boolean pubblico) {
         this.pubblico = pubblico;
     }
 
-    public Utente getMittente() {
+    public UtenteMinimale getMittente() {
         return mittente;
     }
 
-    public void setMittente(Utente mittente) {
+    public void setMittente(UtenteMinimale mittente) {
         this.mittente = mittente;
     }
 }

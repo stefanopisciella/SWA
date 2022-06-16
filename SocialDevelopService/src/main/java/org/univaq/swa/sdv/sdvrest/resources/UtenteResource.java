@@ -102,12 +102,10 @@ public class UtenteResource {
     @Produces("application/json")
     public Response getProjects() {
         
-        /*
-        estrazione dei progetti ai quali l'utente con ID=id lavora/ha lavorato
-        */
-        
-        // TODO: costruzione risposta
-        //return Response.ok(pIVA).build();
-        return Response.ok().build();
+        /*Progetto p
+        return Response.
+                ok().build();*/
+        return Response.
+                ok().build();
     }
 }
