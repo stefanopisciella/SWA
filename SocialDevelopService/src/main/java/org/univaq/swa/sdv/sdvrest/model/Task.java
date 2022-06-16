@@ -60,6 +60,14 @@ public class Task {
     public void setAttivo(boolean attivo) {
         this.attivo = attivo;
     }
+    
+    public List<Skill> getSkills() {
+        return skill_richieste;
+    }
+
+    public void setSkills (List<Skill> skills) {
+        this.skill_richieste = skills;
+    }
 
     public List<Utente> getCollaboratori() {
         return collaboratori;
@@ -67,5 +75,13 @@ public class Task {
 
     public void setCollaboratori(List<Utente> collaboratori) {
         this.collaboratori = collaboratori;
+    }
+    
+    public static Task dummyTask (String nome) {
+        
+        Task t = new Task();
+        t.setNome(nome);
+        
+        return t;
     }
 }

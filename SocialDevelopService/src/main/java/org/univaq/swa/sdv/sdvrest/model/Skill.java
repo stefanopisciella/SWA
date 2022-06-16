@@ -30,4 +30,12 @@ public class Skill {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    
+    public static Skill dummySkills (String nome) {
+        
+        Skill s = new Skill();
+        s.setNome(nome);
+        
+        return s;
+    }
 }
