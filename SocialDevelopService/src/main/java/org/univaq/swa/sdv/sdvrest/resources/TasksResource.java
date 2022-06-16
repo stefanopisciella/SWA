@@ -16,6 +16,7 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.WebApplicationException;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
@@ -35,24 +36,23 @@ public class TasksResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() throws RESTWebApplicationException {
         
-        
-        
-        if (p.getId() == 1) {
-            
-        }
-        
-        if (p.getId() == 2) {
-            
-        }
-                
-        List<String> l = new ArrayList();
-        
-        /**
-         * riempire lista con oggetti 'tasks' e ritornarla
-         */
-
-        return Response.ok(l).build();
-    }
+       Task t1 = new Task();
+       t1.setNome("task 1");
+       t1.setDescrizione("descrizione del task 1");
+       t1.setAttivo(true);
+       //t1.setCollaboratori(collaboratori);
+       
+       Task t2 = new Task();
+       t2.setNome("task 2");
+       t2.setDescrizione("descrizione del task 2");
+       t2.setAttivo(false);
+       
+       ArrayList<Task> tasks = new ArrayList<>();
+       tasks.add(t1);
+       tasks.add(t2);
+       
+       return Response.ok(tasks).build();
+   }
     
     /**
      * OP 11 - GET [BASE]/progetti/id/tasks/id/collaboratori
@@ -62,10 +62,8 @@ public class TasksResource {
     @GET
     @Path("{id: [1-9]+}/collaboratori")
     @Produces("application/json")
-    public Response getCollabs(@PathParam("id") int riga) {
+    public Response getCollabs(@PathParam("id") int idTask) throws WebApplicationException {
         
-        // cerca nel DB il task di ID= id
-        // ritorna gli utenti associati a quel task
         return Response.ok().build();
     }
     

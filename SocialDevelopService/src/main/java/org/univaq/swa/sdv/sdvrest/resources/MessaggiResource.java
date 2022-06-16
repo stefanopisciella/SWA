@@ -48,125 +48,22 @@ public class MessaggiResource {
     @GET
     @Produces("application/json")
     public Response getAll() throws RESTWebApplicationException {
-        /*
-        Nel test si mette come parametri di query dataInizio=01/05/2021 e dataFine=31/12/2021
-        Così il riusltato di questo metodo dovrebbe essere la lista composta da: m2 ed m4
-        */
         
-        /*
-        Istanzio 5 messaggi, di cui 3 pubblici e 2 privati.
-        Suppongo di avere 2 progetti, p1 e p2
-        In p1 ci sono 2 messaggi pubblici e 1 privato e in p2 c'è 1 messaggio pubblico e 1 privato
-        */
-        boolean inizio = (dataInizio == null),
-                fine = (dataFine == null);
-        
-        // pubblici
         Messaggio m1 = new Messaggio();
-        m1.setPubblico(true);
+        m1.setPubblico(false);
         m1.setTesto("messaggio 1");
-        m1.setDataOra(LocalDateTime.of(2021, Month.MARCH, 12, 22, 10));
-        // TODO: aggiungere mittente
-        //m1.setMittente(mittente);
+        m1.setDataOra(LocalDateTime.of(2021, Month.MAY, 24, 22, 10));
         
         Messaggio m2 = new Messaggio();
         m2.setPubblico(true);
         m2.setTesto("messaggio 2");
         m2.setDataOra(LocalDateTime.of(2021, Month.JULY, 23, 10, 00));
-        // TODO: aggiungere mittente
-
-        Messaggio m3 = new Messaggio();
-        m3.setPubblico(true);
-        m3.setTesto("messaggio 3");
-        m3.setDataOra(LocalDateTime.of(2021, Month.DECEMBER, 1, 16, 19));
-        // TODO: aggiungere mittente
         
-        // privati
-        Messaggio m4 = new Messaggio();
-        m4.setPubblico(false);
-        m4.setTesto("messaggio 4");
-        m4.setDataOra(LocalDateTime.of(2021, Month.MAY, 24, 22, 10));
-        // TODO: aggiungere mittente
+        ArrayList<Messaggio> messaggi = new ArrayList<>();
+        messaggi.add(m1);
+        messaggi.add(m2);
         
-        Messaggio m5 = new Messaggio();
-        m5.setPubblico(false);
-        m5.setTesto("messaggio 5");
-        m5.setDataOra(LocalDateTime.of(2021, Month.APRIL, 20, 11, 17));
-        // TODO: aggiungere mittente
-        
-        // TODO: aggiungere controllo per autenticazione
-        
-        // aggiunta messaggi nei rispettivi progetti
-        ArrayList<Messaggio> l = new ArrayList<>();
-        
-        // in base all'id passato (che può essere 1 o 2) restituisco la Response contente la lista di messaggi relativi a quel progetto
-        if (p.getId() == 1){
-            
-            p.getMessaggi().add(m1);
-            p.getMessaggi().add(m2);
-            p.getMessaggi().add(m4);
-            
-            if (inizio && fine) {
-                l.addAll(p.getMessaggi());
-                return Response.ok(l).build();
-            }
-            
-            if (!inizio && !fine){
-                for (Messaggio m : p.getMessaggi()) {
-                    if ((m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio)) && (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataFine))) {l.add(m);}
-                }
-                return Response.ok(l).build();
-            }
-            
-            if (!inizio && fine) {
-                for (Messaggio m : p.getMessaggi()) {
-                    if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio))   l.add(m);
-                }
-                return Response.ok(l).build();
-            }
-            
-            if (inizio && !fine) {
-                for (Messaggio m : p.getMessaggi()) {
-                    if (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataInizio))   l.add(m);
-                }
-                return Response.ok(l).build();
-            }
-        }
-        
-        if (p.getId() == 2) {
-            
-            p.getMessaggi().add(m3);
-            p.getMessaggi().add(m5);
-            
-            if (inizio && fine) {
-                l.addAll(p.getMessaggi());
-                return Response.ok(l).build();
-            }
-            
-            if (!inizio && fine) {
-                for (Messaggio m : p.getMessaggi()) {
-                    if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio))   l.add(m);
-                }
-                return Response.ok(l).build();
-            }
-            
-            if (inizio && !fine) {
-                for (Messaggio m : p.getMessaggi()) {
-                    if (m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataInizio))   l.add(m);
-                }
-                return Response.ok(l).build();
-            }
-            
-            if (!inizio && !fine){
-                for (Messaggio m : p.getMessaggi()) {
-                    if (m.getDataOra().toLocalDate().equals(dataInizio) || m.getDataOra().toLocalDate().isAfter(dataInizio) && 
-                        m.getDataOra().toLocalDate().equals(dataFine) || m.getDataOra().toLocalDate().isBefore(dataFine))   l.add(m);
-                }
-                return Response.ok(l).build();
-            }
-        }
-        
-        throw new RESTWebApplicationException(404, "Progetto non trovato");
+        return Response.ok(messaggi).build();
     }
     
     /***
