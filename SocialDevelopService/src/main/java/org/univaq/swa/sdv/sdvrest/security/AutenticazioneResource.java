@@ -69,11 +69,12 @@ public class AutenticazioneResource {
             String token = (String) request.getAttribute("token");
             if (token != null) {
                 revokeToken(token);
+                return Response.status(Response.Status.OK).build();
             }
-            return Response.noContent().build();
         } catch (Exception e) {
             return Response.serverError().build();
         }
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     private Integer authenticate(String username, String password) {
