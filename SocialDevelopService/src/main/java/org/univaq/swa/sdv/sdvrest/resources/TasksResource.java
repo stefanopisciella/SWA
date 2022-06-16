@@ -37,7 +37,7 @@ public class TasksResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() throws RESTWebApplicationException {
         
-       if (p.getId() == 2) throw new RESTWebApplicationException(new NotFoundException("progetto inesistente"));
+       if (p.getId() == 2) return Response.status(Response.Status.NOT_FOUND).build();
         
        Task t1 = new Task();
        t1.setNome("task 1");

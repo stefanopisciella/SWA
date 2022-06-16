@@ -24,6 +24,7 @@ public class Messaggio {
     private String testo;
     private LocalDateTime dataOra;
     private boolean pubblico;
+    //private Progetto p;
     
     // contatore per autoincrement dell'id
     private static int cont = 1;
@@ -43,8 +44,8 @@ public class Messaggio {
     public int getId() {
         return id;
     }
-
-    @JsonProperty
+    
+    @JsonIgnore
     public void setId(int id) {
         this.id = id;
     }
@@ -60,25 +61,27 @@ public class Messaggio {
     public LocalDateTime getDataOra() {
         return dataOra;
     }
-
+    
     public void setDataOra(LocalDateTime dataOra) {
         this.dataOra = dataOra;
     }
-
+    
     @JsonIgnore
     public boolean isPubblico() {
         return pubblico;
     }
 
-    @JsonProperty
+    @JsonIgnore
     public void setPubblico(boolean pubblico) {
         this.pubblico = pubblico;
     }
 
+    @JsonProperty
     public UtenteMinimale getMittente() {
         return mittente;
     }
 
+    @JsonIgnore
     public void setMittente(UtenteMinimale mittente) {
         this.mittente = mittente;
     }

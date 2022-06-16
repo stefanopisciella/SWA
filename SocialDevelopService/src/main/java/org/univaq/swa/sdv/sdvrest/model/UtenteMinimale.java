@@ -20,6 +20,10 @@ public class UtenteMinimale {
     public void setId(int id) {
         this.id = id;
     }
+    
+    public int getId(){
+        return this.id;
+    }
 
     public String getNome() {
         return nome;

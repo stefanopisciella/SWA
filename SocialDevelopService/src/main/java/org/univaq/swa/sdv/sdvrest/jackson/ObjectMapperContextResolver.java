@@ -37,6 +37,8 @@ public class ObjectMapperContextResolver implements ContextResolver<ObjectMapper
         //customSerializer.addSerializer(Calendar.class, new JavaCalendarSerializer());
         //customSerializer.addDeserializer(Calendar.class, new JavaCalendarDeserializer());
         customSerializer.addSerializer(LocalDateTime.class, new JavaLocalDateTimeSerializer());
+        customSerializer.addDeserializer(LocalDateTime.class, new JavaLocalDateTimeDeserializer());
+        
         mapper.registerModule(customSerializer);
 
         return mapper;

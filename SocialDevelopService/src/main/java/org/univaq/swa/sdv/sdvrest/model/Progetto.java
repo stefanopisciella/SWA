@@ -1,5 +1,6 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -11,6 +12,8 @@ public class Progetto {
     private int id;
     private String nome;
     private String descrizione;
+    private int valutazione;
+    
     private static int cont = 1;
     
     List<Task> tasks;
@@ -27,6 +30,7 @@ public class Progetto {
         messaggi = new ArrayList<>();
     }
     
+    @JsonIgnore
     public int getId() {
         return id;
     }
@@ -50,7 +54,8 @@ public class Progetto {
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
     }
-
+    
+    @JsonIgnore
     public List<Task> getTasks() {
         return tasks;
     }
@@ -59,12 +64,21 @@ public class Progetto {
         this.tasks = task;
     }
 
+    @JsonIgnore
     public List<Messaggio> getMessaggi() {
         return messaggi;
     }
 
     public void setMessaggi(List<Messaggio> messaggio) {
         this.messaggi = messaggio;
+    }
+    
+    public int getValutazione() {
+        return valutazione;
+    }
+
+    public void setValutazione(int valutazione) {
+        this.valutazione = valutazione;
     }
     
     public static Progetto dummyProgetto (int id, String nome, String descrizione) {

@@ -22,15 +22,9 @@ import org.univaq.swa.sdv.sdvrest.model.*;
 public class ProgettoResource {
     
     private final Progetto p;
-    private int from, to;
-    private String dataInizio, dataFine;
     
-    public ProgettoResource(Progetto p, int from, int to, String dI, String dF){
+    public ProgettoResource(Progetto p){
         this.p = p;
-        this.from = from;
-        this.to = to;
-        this.dataInizio = dI;
-        this.dataFine = dF;
     }
     
     /**
@@ -83,7 +77,7 @@ public class ProgettoResource {
      */
     @Path("messaggi")
     public MessaggiResource getMessages() {
-        return new MessaggiResource(p, from, to, dataInizio, dataFine);
+        return new MessaggiResource(p);
     }
     
 }

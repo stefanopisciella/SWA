@@ -16,7 +16,6 @@ import jakarta.ws.rs.core.UriInfo;
 import java.util.Iterator;
 import java.util.List;
 import org.univaq.swa.sdv.sdvrest.data.TokenManager;
-
 import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 import org.univaq.swa.sdv.sdvrest.model.Utente;
 
@@ -35,6 +34,7 @@ public class AutenticazioneResource {
             //un altro modo per ricevere e iniettare i parametri con JAX-RS...
             @FormParam("username") String username,
             @FormParam("password") String password) {
+        UtenteManager.initilizeData();
         try {
             Integer userID = authenticate(username, password);
             

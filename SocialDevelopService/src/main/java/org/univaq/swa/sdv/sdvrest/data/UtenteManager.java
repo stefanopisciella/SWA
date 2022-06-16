@@ -15,10 +15,11 @@ import org.univaq.swa.sdv.sdvrest.model.Utente;
 public class UtenteManager {
     public static List<Utente> utenti = new ArrayList<Utente>();
     
-    public void initilizeData(){
+    public static void initilizeData(){
         Utente utente1 = new Utente();
         utente1.setNome("Stefano");
         utente1.setCognome("Pisciella");
+        utente1.setId(1);
         utente1.setEmail("stefano@gmail.com");
         utente1.setTelefono("3880581680");
         utente1.setUsername("stefa");

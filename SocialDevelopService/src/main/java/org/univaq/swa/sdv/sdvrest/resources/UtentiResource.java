@@ -109,7 +109,9 @@ public class UtentiResource {
             //throw new RESTWebApplicationException(404, "Fattura non trovata");
             return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
         }*/
-        return null;
+        Utente u = new Utente();
+        u.setId(id);
+        return new UtenteResource(u);
     }
     
     //--------------------------------------------------------------------------

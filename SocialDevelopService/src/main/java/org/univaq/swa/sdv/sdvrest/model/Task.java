@@ -30,6 +30,7 @@ public class Task {
         collaboratori = new ArrayList<>();
     }
     
+    @JsonIgnore
     public int getId() {
         return id;
     }
@@ -62,10 +63,11 @@ public class Task {
         this.attivo = attivo;
     }
     
+    @JsonIgnore
     public List<Skill> getSkills() {
         return skill_richieste;
     }
-
+    
     public void setSkills (List<Skill> skills) {
         this.skill_richieste = skills;
     }

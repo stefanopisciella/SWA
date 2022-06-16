@@ -23,7 +23,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
-
 @Path("progetti")
 public class ProgettiResource {
     
@@ -129,11 +128,7 @@ public class ProgettiResource {
      * @return 
      */
     @Path("{id: [1-9]+}")
-    public ProgettoResource getProject(@PathParam("id") int id,
-                                       @QueryParam("from") int from,
-                                       @QueryParam("to") int to,
-                                       @QueryParam("dataInizio") String dI,
-                                       @QueryParam("dataFine") String dF) {
+    public ProgettoResource getProject(@PathParam("id") int id) {
         
         Progetto p = null;
         if (id == 1) {
@@ -149,7 +144,7 @@ public class ProgettiResource {
             p.setNome("p2");
             p.setDescrizione("Progetto p2");
         }
-        return new ProgettoResource(p, from, to, dI, dF);
+        return new ProgettoResource(p);
     }
     
 }

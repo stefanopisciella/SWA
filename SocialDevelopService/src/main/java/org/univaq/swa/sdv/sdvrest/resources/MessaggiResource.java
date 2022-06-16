@@ -17,26 +17,26 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
 import org.univaq.swa.sdv.sdvrest.model.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import org.glassfish.jersey.server.Uri;
 import org.univaq.swa.sdv.sdvrest.data.MessaggioManager;
 
 public class MessaggiResource {
     
     private final Progetto p;
-    private int from, to;
-    private LocalDate dataInizio, dataFine;
     
-    public MessaggiResource(Progetto p, int from, int to, String dI, String dF){
+    public MessaggiResource(Progetto p){
         this.p = p;
-        this.from = from;
-        this.to = to;
         
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        if (dI != null) dataInizio = LocalDate.parse(dI, formatter);
-        if (dF != null) dataFine = LocalDate.parse(dF, formatter);
+       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+       // if (dI != null) dataInizio = LocalDate.parse(dI, formatter);
+       // if (dF != null) dataFine = LocalDate.parse(dF, formatter);
     }
     
     /***
@@ -47,7 +47,10 @@ public class MessaggiResource {
      */
     @GET
     @Produces("application/json")
-    public Response getAll() throws RESTWebApplicationException {
+    public Response getAll(@QueryParam("from") int from,
+                           @QueryParam("to") int to,
+                           @QueryParam("dataInizio") String dI,
+                           @QueryParam("dataFine") String dF) throws RESTWebApplicationException {
         
         Messaggio m1 = new Messaggio();
         m1.setPubblico(false);
@@ -89,23 +92,35 @@ public class MessaggiResource {
     @Consumes("application/json")
     public Response addMessage(
             @Context UriInfo uriinfo,
-            Messaggio m/*,
-            int idProgetto*/) throws RESTWebApplicationException {
+            Messaggio m,
+            @Context ContainerRequestContext req) throws RESTWebApplicationException {
 
         /*
         Inserimento nuovo messaggio nel sistema
         */
         //MessaggioManager.getInstance().getMessaggi().add(m);
         
-        p.getMessaggi().add(m);
-        /*
-        Costruzione della URL di risposta per il messaggio appena inserito
-        */
-        URI uri = uriinfo.getBaseUriBuilder()
-                .path(getClass())
-                .path(getClass(), "addMessage")
-                .build(p.getId(), m.getId());
+        //int id = (int) req.getProperty("IDutente");
         
-        return Response.created(uri).build();
+        UtenteMinimale u = new UtenteMinimale();
+        u.setNome("Frank");
+        u.setCognome("Joyce");
+        u.setEmail("frankD@mail.com");
+        //u.setId(req.getProperty("userID"));
+        m.setMittente(u);
+        m.setId(10);
+        p.getMessaggi().add(m);
+        
+        System.out.println(u.getId());
+        
+        /*URI uri = uriinfo.getBaseUriBuilder()                       // [BASE]/rest
+                .path(ProgettiResource.class)                       // /progetti
+                .path(ProgettiResource.class, "getProject")         // /idProg
+                .path(ProgettoResource.class, "getMessages")        // /messaggi
+                .path(Integer.toString(m.getId()))
+                .build(p.getId());    */    
+        
+        //return Response.created(uri).build();
+        return Response.ok(m).build();
     }
 }

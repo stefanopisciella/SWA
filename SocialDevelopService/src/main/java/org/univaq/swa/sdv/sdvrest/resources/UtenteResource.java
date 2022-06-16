@@ -102,10 +102,26 @@ public class UtenteResource {
     @Produces("application/json")
     public Response getProjects() {
         
-        /*Progetto p
-        return Response.
-                ok().build();*/
-        return Response.
-                ok().build();
+        if (u.getId() == 4) throw new RESTWebApplicationException(404, "utente non trovato");
+        
+        Progetto p1 = new Progetto();
+        p1.setNome("progetto 1 utente " + u.getId());
+        p1.setDescrizione("descrizione progetto 1 utente " + u.getId());
+        p1.setValutazione(7);
+        Progetto p2 = new Progetto();
+        p2.setNome("progetto 2 utente " + u.getId());
+        p2.setDescrizione("descrizione progetto 2 utente " + u.getId());
+        p2.setValutazione(5);
+        Progetto p3 = new Progetto();
+        p3.setNome("progetto 3 utente " + u.getId());
+        p3.setDescrizione("descrizione progetto 3 utente " + u.getId());
+        p3.setValutazione(3);
+        
+        ArrayList<Progetto> res = new ArrayList<>();
+        res.add(p1);
+        res.add(p2);
+        res.add(p3);
+        
+        return Response.ok(res).build();
     }
 }
