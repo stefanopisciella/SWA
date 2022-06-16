@@ -19,6 +19,7 @@ import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
@@ -66,10 +67,21 @@ public class ProgettiResource {
         List<Map<String, Object>> listaProgetti = new ArrayList();
         for (int i = from; i <= to; ++i) {
             Progetto p = Progetto.dummyProgetto(i, "p" + i, "d" + i);
+            // il progetto p non ha task, quindi p.getTask torna una lista vuota a cui aggiungo un task i  
+            List<Task> listaTask = p.getTasks(); 
+            Task t = Task.dummyTask("task" + i);
+            listaTask.add(t);
+            // il task t non ha skill, quindi t.getSkill torna una lista vuota a cui aggiungo
+            // la skill1 se i è pari, la skill2 se i è dispari => i progetti con i pari hanno skill1
+            if (i % 2 == 0) {
+                t.getSkills().add(Skill.dummySkills("skill1"));
+            } else {
+                t.getSkills().add(Skill.dummySkills("skill2"));
+            }
             Map<String, Object> progetto = new HashMap<>();
             progetto.put("nome", p.getNome());
             progetto.put("descrizione", p.getDescrizione());
-
+     
         // creazione url per vedere il dettaglio
             URI uri = uriinfo.getBaseUriBuilder()
                     .path(getClass())
@@ -78,7 +90,7 @@ public class ProgettiResource {
             progetto.put("url", uri.toString());
             listaProgetti.add(progetto);
         }
-
+        
         return listaProgetti;
     }
     
