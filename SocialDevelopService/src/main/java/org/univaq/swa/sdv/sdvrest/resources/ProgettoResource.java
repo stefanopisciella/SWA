@@ -41,26 +41,21 @@ public class ProgettoResource {
     @GET
     @Produces("application/json")
     public Response getProject() {
+        //estrae l'utente dal DB (ma non capisco come prendere l'ID) 
         
-        /*
-        estrae l'utente dal DB (ma non capisco come prendere l'ID)
-        */
-        
-        /*try {
-            return Response.ok(f)
-                    //possiamo aggiungere alla Response vari elementi, ad esempio header...
-                    .header("X-fattura-app-version", "1.0")
-                    .build();
+        try {
+            return Response.ok(p).build();
         } catch (Exception e) {
-            //gestione delle eccezioni (business):
+                        //gestione delle eccezioni (business):
             //Modalità 1: creazione response di errore
 //            return Response.serverError()
 //                    .entity(e.getMessage()) //mai in produzione
 //                    .build();
             //Modalità 2: incapsulamento in eccezione JAXRS compatibile
             throw new RESTWebApplicationException(e);
-        }*/
-        return Response.ok().build();
+
+
+        }
     }
     
     /***
