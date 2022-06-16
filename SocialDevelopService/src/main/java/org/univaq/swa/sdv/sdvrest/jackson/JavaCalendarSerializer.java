@@ -1,4 +1,3 @@
-
 package org.univaq.swa.sdv.sdvrest.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;

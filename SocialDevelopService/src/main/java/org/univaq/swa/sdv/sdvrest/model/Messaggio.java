@@ -1,15 +1,30 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 /**
  *
  * @author stefa
  */
+
+/*@JsonAutoDetect(
+    fieldVisibility = Visibility.NONE,
+    setterVisibility = Visibility.NONE,
+    getterVisibility = Visibility.NONE,
+    isGetterVisibility = Visibility.NONE,
+    creatorVisibility = Visibility.NONE
+)*/
+
 public class Messaggio {
     private int id;
+    //@JsonProperty
     private String testo;
+    //@JsonProperty
     private LocalDateTime dataOra;
+    //@JsonProperty
     private boolean pubblico;
     
     // contatore per autoincrement dell'id
