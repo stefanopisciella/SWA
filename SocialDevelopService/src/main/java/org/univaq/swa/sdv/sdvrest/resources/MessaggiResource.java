@@ -26,6 +26,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import org.glassfish.jersey.server.Uri;
 import org.univaq.swa.sdv.sdvrest.data.MessaggioManager;
+import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 
 public class MessaggiResource {
     
@@ -102,25 +103,26 @@ public class MessaggiResource {
         
         //int id = (int) req.getProperty("IDutente");
         
-        UtenteMinimale u = new UtenteMinimale();
-        u.setNome("Frank");
-        u.setCognome("Joyce");
-        u.setEmail("frankD@mail.com");
+        //UtenteMinimale u = new UtenteMinimale();
+        //UtenteManager.utenti.
         //u.setId(req.getProperty("userID"));
+        int idUtente = (Integer) req.getProperty("IDutente");
+        
+        UtenteMinimale u = UtenteManager.getUtenteByID(idUtente);
+      
         m.setMittente(u);
         m.setId(10);
         p.getMessaggi().add(m);
         
         System.out.println(u.getId());
         
-        /*URI uri = uriinfo.getBaseUriBuilder()                       // [BASE]/rest
+        URI uri = uriinfo.getBaseUriBuilder()                       // [BASE]/rest
                 .path(ProgettiResource.class)                       // /progetti
                 .path(ProgettiResource.class, "getProject")         // /idProg
                 .path(ProgettoResource.class, "getMessages")        // /messaggi
                 .path(Integer.toString(m.getId()))
-                .build(p.getId());    */    
+                .build(p.getId()); 
         
-        //return Response.created(uri).build();
-        return Response.ok(m).build();
+        return Response.created(uri).build();
     }
 }

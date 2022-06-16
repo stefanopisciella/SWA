@@ -6,7 +6,9 @@ package org.univaq.swa.sdv.sdvrest.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.model.Utente;
+import org.univaq.swa.sdv.sdvrest.model.UtenteMinimale;
 
 /**
  *
@@ -45,10 +47,24 @@ public class UtenteManager {
         utente3.setId(3);
         
         utenti.add(utente1);
-        
-        
-        
     }
+    
+    public static UtenteMinimale getUtenteByID(int idUtente) {
+        for (Utente u : utenti) {
+            if (u.getId() == idUtente) {
+                UtenteMinimale res = new UtenteMinimale();
+                res.setId(u.getId());
+                res.setNome(u.getNome());
+                res.setCognome(u.getCognome());
+                res.setEmail(u.getEmail());
+                
+                return res;
+            }
+        }
+        
+        throw new RESTWebApplicationException(404, "utente non trovato");
+    }
+    
 }
 
 
