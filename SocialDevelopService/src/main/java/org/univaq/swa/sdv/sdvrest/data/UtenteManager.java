@@ -23,6 +23,7 @@ public class UtenteManager {
         utente1.setTelefono("3880581680");
         utente1.setUsername("stefa");
         utente1.setPassword("stefa");
+        utente1.setId(1);
         
         Utente utente2 = new Utente();
         utente2.setNome("Beatrice");
@@ -31,15 +32,16 @@ public class UtenteManager {
         utente2.setTelefono("3880581680");
         utente2.setUsername("beatrice");
         utente2.setPassword("beatrice");
+        utente2.setId(2);
         
         Utente utente3 = new Utente();
-        utente2.setNome("Nicola");
-        utente2.setCognome("Rossi");
-        utente2.setEmail("nicola@gmail.com");
-        utente2.setTelefono("3880581680");
-        utente2.setUsername("nicola");
-        utente2.setPassword("nicola");
-        
+        utente3.setNome("Nicola");
+        utente3.setCognome("Rossi");
+        utente3.setEmail("nicola@gmail.com");
+        utente3.setTelefono("3880581680");
+        utente3.setUsername("nicola");
+        utente3.setPassword("nicola");
+        utente3.setId(3);
         
         utenti.add(utente1);
         
