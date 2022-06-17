@@ -23,7 +23,6 @@ import org.univaq.swa.sdv.sdvrest.model.*;
 
 public class UtenteResource {
     
-    // OPPURE UTENTE MINIMALE? NON POSSO TORNARE LA SUA PASSWORD
     private final Utente u;
     
     UtenteResource(Utente u) {
@@ -38,6 +37,11 @@ public class UtenteResource {
     @GET
     @Produces("application/json")
     public Response getUserDetail() {
+         try {
+            return Response.ok(u).build();
+        } catch (Exception e) {
+            throw new RESTWebApplicationException(e);
+        }
         
         /*
         estrae l'utente dal DB (ma non capisco come prendere l'ID)
@@ -57,7 +61,6 @@ public class UtenteResource {
             //Modalità 2: incapsulamento in eccezione JAXRS compatibile
             throw new RESTWebApplicationException(e);
         }*/
-        return Response.ok().build();
     }
     
     /***
