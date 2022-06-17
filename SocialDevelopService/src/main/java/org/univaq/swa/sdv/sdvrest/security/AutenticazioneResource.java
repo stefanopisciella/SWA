@@ -27,7 +27,7 @@ import org.univaq.swa.sdv.sdvrest.model.Utente;
 @Path("auth")
 public class AutenticazioneResource {
 
-    /*@POST
+    @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response doLogin(@Context UriInfo uriinfo,
@@ -35,9 +35,9 @@ public class AutenticazioneResource {
             @FormParam("username") String username,
             @FormParam("password") String password) {
         
-        //UtenteManager.initilizeData();
+        UtenteManager.initilizeData();
         
-        /*try {
+        try {
             Integer userID = authenticate(username, password);
             
             // il metodo "authenticate" ritorna null se l'autenticazione non ha avuto successo, in caso contrario ritorna un intero
@@ -58,38 +58,11 @@ public class AutenticazioneResource {
             }
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        }*/
-        
-        /*try {
-            if (authenticate(username, password)) {
-                
-                String authToken = issueToken(uriinfo, username);
-
-                //return Response.ok(authToken).build();
-                //return Response.ok().cookie(new NewCookie("token", authToken)).build();
-                //return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
-                //Restituiamolo in tutte le modalità, giusto per fare un esempio..
-                return Response.ok(authToken)
-                        .cookie(new NewCookie("token", authToken))
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
-            } else {
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-            }
-        } catch (Exception e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-    }*/
-    
-    @POST
-    @Path("/login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response doLogin(@Context UriInfo uriinfo,
-            //un altro modo per ricevere e iniettare i parametri con JAX-RS...
-            @FormParam("username") String username,
-            @FormParam("password") String password) {
+        
         try {
             if (authenticate(username, password)) {
-                /* per esempio */
+                
                 String authToken = issueToken(uriinfo, username);
 
                 //return Response.ok(authToken).build();
@@ -125,7 +98,7 @@ public class AutenticazioneResource {
         return Response.status(Response.Status.NO_CONTENT).build();
     }
 
-    /*private Integer authenticate(String username, String password) {
+    private Integer authenticate(String username, String password) {
         List<Utente> listaUtenti = UtenteManager.utenti;
         for(Utente utente : listaUtenti) {
             if(username.equals(utente.getUsername()) && password.equals(utente.getPassword())){
@@ -133,17 +106,12 @@ public class AutenticazioneResource {
             }
         }
         return null; // caso in cui l'AUTENTICAZIONE ha avuto SUCCESSO
-    }*/
-    
-    private boolean authenticate(String username, String password) {
-        if (username.equals("stefa") && password.equals("stefa")) return true;
-        return false;
     }
 
     // metodo per generare il token
     private String issueToken(UriInfo context, String username) {
         String token = username + UUID.randomUUID().toString();
-        //TokenManager.tokens.add(token);
+        TokenManager.tokens.add(token);
         return token;
     }
 

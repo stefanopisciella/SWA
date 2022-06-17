@@ -13,6 +13,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.Provider;
 import org.univaq.swa.sdv.sdvrest.data.TokenManager;
+import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 
 /**
  *
@@ -28,6 +29,8 @@ public class LoggedFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {        
+        UtenteManager.initilizeData();
+        
         String token = null;
         final String path = requestContext.getUriInfo().getAbsolutePath().toString();
         

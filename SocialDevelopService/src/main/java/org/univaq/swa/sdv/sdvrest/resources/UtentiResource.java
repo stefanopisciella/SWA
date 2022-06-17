@@ -16,6 +16,7 @@ import java.util.List;
 import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import java.net.URI;
+import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 @Path("utenti")
@@ -36,18 +37,18 @@ public class UtentiResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll(
-            @QueryParam("skill1") String s1,
-            @QueryParam("skill2") String s2,
-            @QueryParam("from") String from,
-            @QueryParam("to") String to) throws RESTWebApplicationException {
+            @QueryParam("skill1") Integer s1,
+            @QueryParam("skill2") Integer s2,
+            @QueryParam("from") int from,
+            @QueryParam("to") int to) throws RESTWebApplicationException {
 
         List<String> l = new ArrayList();
         
         /**
          * riempire lista con oggetti 'utente' e ritornarla
          */
-
-        return Response.ok(l).build();
+        List<Utente> utenti = UtenteManager.getUtenti(s1, s2);
+        return Response.ok(utenti).build();
     }
     
     /**
@@ -65,9 +66,12 @@ public class UtentiResource {
             @Context UriInfo uriinfo,
             Utente u) throws RESTWebApplicationException {
 
-        /*
-        Inserimento nuovo utente nel sistema
-        */
+        Utente utente = Utente.dummyUtente(u.getId(), u.getNome(), u.getCognome(), u.getEmail(), u.getTelefono(), u.getUsername(), u.getPassword());
+        
+        URI uri = uriinfo.getBaseUriBuilder()
+            .path(getClass())
+            .path(getClass(), "getUser")
+            .build(utente.getId());
         
         /*
         Costruzione della URL di risposta per l'utente appena inserito
@@ -77,10 +81,9 @@ public class UtentiResource {
         /*URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
                 .path(getClass(), "getItem")
-                .build(f.getData().get(Calendar.YEAR), f.getNumero());
+                .build(f.getData().get(Calendar.YEAR), f.getNumero());*/
         
-        return Response.created(uri).build();*/
-        return Response.ok().build();
+        return Response.created(uri).build();
     }
     
     /**

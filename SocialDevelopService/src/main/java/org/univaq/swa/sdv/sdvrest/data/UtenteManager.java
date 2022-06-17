@@ -7,6 +7,7 @@ package org.univaq.swa.sdv.sdvrest.data;
 import java.util.ArrayList;
 import java.util.List;
 import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
+import org.univaq.swa.sdv.sdvrest.model.Skill;
 import org.univaq.swa.sdv.sdvrest.model.Utente;
 import org.univaq.swa.sdv.sdvrest.model.UtenteMinimale;
 
@@ -18,35 +19,11 @@ public class UtenteManager {
     public static List<Utente> utenti = new ArrayList<Utente>();
     
     public static void initilizeData(){
-        Utente utente1 = new Utente();
-        utente1.setNome("Stefano");
-        utente1.setCognome("Pisciella");
-        utente1.setId(1);
-        utente1.setEmail("stefano@gmail.com");
-        utente1.setTelefono("3880581680");
-        utente1.setUsername("stefa");
-        utente1.setPassword("stefa");
-        utente1.setId(1);
-        
-        Utente utente2 = new Utente();
-        utente2.setNome("Beatrice");
-        utente2.setCognome("Tomassi");
-        utente2.setEmail("beatrice@gmail.com");
-        utente2.setTelefono("3880581680");
-        utente2.setUsername("beatrice");
-        utente2.setPassword("beatrice");
-        utente2.setId(2);
-        
-        Utente utente3 = new Utente();
-        utente3.setNome("Nicola");
-        utente3.setCognome("Rossi");
-        utente3.setEmail("nicola@gmail.com");
-        utente3.setTelefono("3880581680");
-        utente3.setUsername("nicola");
-        utente3.setPassword("nicola");
-        utente3.setId(3);
-        
-        utenti.add(utente1);
+        if (utenti.isEmpty()) {
+            utenti.add(Utente.dummyUtente("Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa"));
+            utenti.add(Utente.dummyUtente("Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice"));
+            utenti.add(Utente.dummyUtente("Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola"));
+        }
     }
     
     public static UtenteMinimale getUtenteByID(int idUtente) {
@@ -63,6 +40,31 @@ public class UtenteManager {
         }
         
         throw new RESTWebApplicationException(404, "utente non trovato");
+    }
+    
+    public static List<Utente> getUtenti(Integer skill1, Integer skill2) {
+        List<Utente> utentiIdonei= new ArrayList<Utente>();
+       
+        int skillRichieste = (skill1 != null)? 1 : 0;
+        skillRichieste += (skill2 != null)? 1 : 0;
+        
+        if(skillRichieste == 0) {
+            return utenti;
+        }
+        
+        for(Utente u: utenti) {
+            int skillPossedute = 0;
+            
+            for(Skill skill : u.getSkill()) {
+                if(skill.getId() == skill1 || skill.getId() == skill2) {
+                    skillPossedute++;
+                }
+                if (skillPossedute >= skillRichieste) {
+                    utentiIdonei.add(u);
+                }   
+            }       
+        }
+        return utentiIdonei; 
     }
     
 }
