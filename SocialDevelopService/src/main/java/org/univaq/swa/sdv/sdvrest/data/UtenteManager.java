@@ -20,9 +20,9 @@ public class UtenteManager {
     
     public static void initilizeData(){
         if (utenti.isEmpty()) {
-            utenti.add(Utente.dummyUtente("Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa"));
-            utenti.add(Utente.dummyUtente("Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice"));
-            utenti.add(Utente.dummyUtente("Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola"));
+            utenti.add(Utente.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa"));
+            utenti.add(Utente.dummyUtente(1, "Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice"));
+            utenti.add(Utente.dummyUtente(1, "Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola"));
         }
     }
     
@@ -55,7 +55,7 @@ public class UtenteManager {
         for(Utente u: utenti) {
             int skillPossedute = 0;
             
-            for(Skill skill : u.getSkill()) {
+            for(Skill skill : u.getSkills()) {
                 if(skill.getId() == skill1 || skill.getId() == skill2) {
                     skillPossedute++;
                 }
