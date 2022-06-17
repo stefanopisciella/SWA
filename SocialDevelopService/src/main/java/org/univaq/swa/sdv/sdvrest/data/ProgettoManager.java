@@ -14,6 +14,9 @@ import org.univaq.swa.sdv.sdvrest.model.Task;
  *
  * @author beato
  */
+
+// la avevo fatta per prova, mi sa che è inutile, nel dubbio la lascio e la cancelliamo dopo
+// nel senso, pensavo di usarla per l'op 7 ma alla fine ho fatto senza.
 public class ProgettoManager {
     
     public static List<Progetto> listaProgetti = new ArrayList<Progetto>();

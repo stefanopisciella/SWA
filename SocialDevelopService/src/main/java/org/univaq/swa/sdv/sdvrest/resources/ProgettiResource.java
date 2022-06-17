@@ -64,6 +64,7 @@ public class ProgettiResource {
         //per i che va da from a to creo oggetti di tipo Progetto
         
         List<Map<String, Object>> listaProgetti = new ArrayList();
+        int lunghezza = to;
         for (int i = from; i <= to; ++i) {
             Progetto p = Progetto.dummyProgetto(i, "p" + i, "d" + i);
             // il progetto p non ha task, quindi p.getTask torna una lista vuota a cui aggiungo un task i  
@@ -71,8 +72,8 @@ public class ProgettiResource {
             Task t = Task.dummyTask("task" + i);
             listaTask.add(t);
             // il task t non ha skill, quindi t.getSkill torna una lista vuota a cui aggiungo
-            // la skill1 se i è pari, la skill2 se i è dispari => i progetti con i pari hanno skill1
-            if (i % 2 == 0) {
+            // la skill1 se i è minore o uguale a 5, la skill2 se i è maggiore
+            if (i <= 5) {
                 t.getSkills().add(Skill.dummySkills("skill1"));
             } else {
                 t.getSkills().add(Skill.dummySkills("skill2"));
@@ -88,6 +89,13 @@ public class ProgettiResource {
                     .build(i);
             progetto.put("url", uri.toString());
             listaProgetti.add(progetto);
+                
+        }
+        if (s1.equals("skill1")) {
+            return listaProgetti.subList(0, 5);
+        } 
+        if (s1.equals("skill2")) {
+            return listaProgetti.subList(5, lunghezza);
         }
         
         return listaProgetti;
