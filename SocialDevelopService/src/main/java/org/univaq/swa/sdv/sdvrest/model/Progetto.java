@@ -12,13 +12,12 @@ public class Progetto {
     private int id;
     private String nome;
     private String descrizione;
-    //private int valutazione;
-    
     private static int cont = 1;
     
     private List<Task> tasks;
     private List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
     private UtenteMinimale coordinatore;
+
 
     public Progetto () {
         id = cont;
@@ -26,6 +25,7 @@ public class Progetto {
         
         nome = "";
         descrizione = "";
+        coordinatore = new UtenteMinimale();
 
         tasks = new ArrayList<>();
         messaggi = new ArrayList<>();
