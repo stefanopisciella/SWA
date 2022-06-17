@@ -117,7 +117,7 @@ public class Utente {
         return "Utente{" + "id=" + id + ", nome=" + nome + ", cognome=" + cognome + '}';
     }
     
-    public static Utente dummyUtente (int id, String nome, String cognome, String email, String telefono, String username, String password) {
+    public static Utente dummyUtente (int id, String nome, String cognome, String email, String telefono, String username, String password, List<Skill> skills) {
         Utente utente = new Utente();
         
         utente.setId(id);
@@ -127,6 +127,7 @@ public class Utente {
         utente.setTelefono(telefono);
         utente.setUsername(username);
         utente.setPassword(password);
+        utente.setSkills(skills);
         
         return utente;
     }
