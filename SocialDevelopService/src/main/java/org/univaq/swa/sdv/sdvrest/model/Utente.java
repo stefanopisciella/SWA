@@ -24,7 +24,7 @@ public class Utente {
     private String password;
     private static int cont = 1;
 
-    List<Skill> skill; // lista di skill che l'utente possiede
+    private List<Skill> skill; // lista di skill che l'utente possiede
     
     public Utente() {
         id = cont;
@@ -80,6 +80,7 @@ public class Utente {
         this.telefono = telefono;
     }
 
+    @JsonIgnore
     public String getUsername() {
         return username;
     }
@@ -104,5 +105,19 @@ public class Utente {
 
     public void setSkill(List<Skill> skill) {
         this.skill = skill;
+    }
+    
+    public static Utente dummyUtente (int id, String nome, String cognome, String email, String telefono, String username, String password) {
+        Utente utente = new Utente();
+        
+        utente.setId(id);
+        utente.setNome(nome);
+        utente.setCognome(cognome);
+        utente.setEmail(email);
+        utente.setTelefono(telefono);
+        utente.setUsername(username);
+        utente.setPassword(password);
+        
+        return utente;
     }
 }
