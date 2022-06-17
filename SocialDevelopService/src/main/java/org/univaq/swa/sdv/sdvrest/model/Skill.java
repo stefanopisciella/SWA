@@ -1,5 +1,8 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  *
  * @author stefa
@@ -19,6 +22,7 @@ public class Skill {
         return id;
     }
 
+    @JsonIgnore
     public void setId(int id) {
         this.id = id;
     }
@@ -27,6 +31,7 @@ public class Skill {
         return nome;
     }
 
+    @JsonProperty
     public void setNome(String nome) {
         this.nome = nome;
     }

@@ -24,7 +24,7 @@ public class Utente {
     private String password;
     private static int cont = 1;
 
-    List<Skill> skill; // lista di skill che l'utente possiede
+    private List<Skill> skills; // lista di skill che l'utente possiede
     
     public Utente() {
         id = cont;
@@ -36,7 +36,7 @@ public class Utente {
         username = "";
         password = "";
 
-        skill = new ArrayList<>();
+        skills = new ArrayList<>();
     }
     
     @JsonIgnore
@@ -52,6 +52,7 @@ public class Utente {
         return nome;
     }
 
+    @JsonProperty
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -60,6 +61,7 @@ public class Utente {
         return cognome;
     }
 
+    @JsonProperty
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
@@ -68,6 +70,7 @@ public class Utente {
         return email;
     }
 
+    @JsonProperty
     public void setEmail(String email) {
         this.email = email;
     }
@@ -76,6 +79,7 @@ public class Utente {
         return telefono;
     }
 
+    @JsonProperty
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
@@ -84,6 +88,7 @@ public class Utente {
         return username;
     }
 
+    @JsonProperty
     public void setUsername(String username) {
         this.username = username;
     }
@@ -98,11 +103,19 @@ public class Utente {
         this.password = password;
     }
 
-    public List<Skill> getSkill() {
-        return skill;
+    public List<Skill> getSkills() {
+        return skills;
     }
 
-    public void setSkill(List<Skill> skill) {
-        this.skill = skill;
+    @JsonProperty
+    public void setSkills(List<Skill> skills) {
+        this.skills = skills;
     }
+
+    @Override
+    public String toString() {
+        return "Utente{" + "id=" + id + ", nome=" + nome + ", cognome=" + cognome + '}';
+    }
+    
+    
 }

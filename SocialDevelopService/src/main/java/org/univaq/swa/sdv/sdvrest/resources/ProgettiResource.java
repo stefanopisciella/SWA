@@ -41,7 +41,7 @@ public class ProgettiResource {
      */
     @GET
     @Produces("application/json")
-    public List<Map<String, Object>> getAll(
+    public /*List<Map<String, Object>>*/ Response getAll(
             @Context UriInfo uriinfo,
             @QueryParam("nome") String nome,
             @QueryParam("skill1") String s1,
@@ -66,7 +66,7 @@ public class ProgettiResource {
         List<Map<String, Object>> listaProgetti = new ArrayList();
         int lunghezza = to;
         for (int i = from; i <= to; ++i) {
-            Progetto p = Progetto.dummyProgetto(i, "p" + i, "d" + i);
+            Progetto p = Progetto.dummyProgetto("p" + i, "d" + i);
             // il progetto p non ha task, quindi p.getTask torna una lista vuota a cui aggiungo un task i  
             List<Task> listaTask = p.getTasks(); 
             Task t = Task.dummyTask("task" + i);
@@ -91,14 +91,29 @@ public class ProgettiResource {
             listaProgetti.add(progetto);
                 
         }
-        if (s1.equals("skill1")) {
-            return listaProgetti.subList(0, 5);
-        } 
-        if (s1.equals("skill2")) {
-            return listaProgetti.subList(5, lunghezza);
+        
+        if (s1 != null && s2 != null) {
+            throw new RESTWebApplicationException(404, "progetto inesistente");
         }
         
-        return listaProgetti;
+        if (s1 != null && s1.equals("skill1")) {
+            
+            ArrayList<Map<String, Object>> res = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                res.add(listaProgetti.get(i));
+            }
+            return Response.ok(res).build();
+        } 
+        
+        if (s2 != null && s2.equals("skill2")) {
+            ArrayList<Map<String, Object>> res = new ArrayList<>();
+            for (int i = 5; i < lunghezza; i++) {
+                res.add(listaProgetti.get(i));
+            }
+            return Response.ok(res).build();
+        }
+        
+        return Response.ok(listaProgetti).build();
     }
     
     /***
@@ -116,7 +131,7 @@ public class ProgettiResource {
             Progetto p) throws RESTWebApplicationException {
 
         //creo il nuovo progetto
-        Progetto nuovoProg = Progetto.dummyProgetto(p.getId(), p.getNome(), p.getDescrizione());
+        Progetto nuovoProg = Progetto.dummyProgetto(p.getNome(), p.getDescrizione());
         
         URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
@@ -129,16 +144,15 @@ public class ProgettiResource {
     /**
      * Estensione del path per gestire le operazioni su singolo progetto
      * @param id
-     * @param from
-     * @param to
-     * @param dI
-     * @param dF
      * @return 
      */
     @Path("{id: [1-9]+}")
     public ProgettoResource getProject(@PathParam("id") int id) {
         
         Progetto p = null;
+        
+        if (id > 2) throw new RESTWebApplicationException(404, "progetto inesistente");
+        
         if (id == 1) {
             p = new Progetto();
             p.setId(id);

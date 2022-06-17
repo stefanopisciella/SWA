@@ -12,12 +12,13 @@ public class Progetto {
     private int id;
     private String nome;
     private String descrizione;
-    private int valutazione;
+    //private int valutazione;
     
     private static int cont = 1;
     
-    List<Task> tasks;
-    List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
+    private List<Task> tasks;
+    private List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
+    private UtenteMinimale coordinatore;
 
     public Progetto () {
         id = cont;
@@ -35,6 +36,7 @@ public class Progetto {
         return id;
     }
 
+    @JsonIgnore
     public void setId(int id) {
         this.id = id;
     }
@@ -60,6 +62,7 @@ public class Progetto {
         return tasks;
     }
 
+    @JsonIgnore
     public void setTasks(List<Task> task) {
         this.tasks = task;
     }
@@ -69,22 +72,23 @@ public class Progetto {
         return messaggi;
     }
 
+    @JsonIgnore
     public void setMessaggi(List<Messaggio> messaggio) {
         this.messaggi = messaggio;
     }
-    
-    public int getValutazione() {
-        return valutazione;
+
+    public UtenteMinimale getCoordinatore() {
+        return coordinatore;
     }
 
-    public void setValutazione(int valutazione) {
-        this.valutazione = valutazione;
+    public void setCoordinatore(UtenteMinimale coordinatore) {
+        this.coordinatore = coordinatore;
     }
     
-    public static Progetto dummyProgetto (int id, String nome, String descrizione) {
+    public static Progetto dummyProgetto (String nome, String descrizione) {
         
         Progetto p = new Progetto();
-        p.setId(id);
+        //p.setId(id);
         p.setNome(nome);
         p.setDescrizione(descrizione);
         
