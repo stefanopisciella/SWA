@@ -37,9 +37,14 @@ public class UtenteResource {
     @GET
     @Produces("application/json")
     public Response getUserDetail() {
-        UtenteManager.initilizeData();
         try {
-            return Response.ok(u).build();
+            List<Skill> skills = new ArrayList<Skill>(); 
+            skills.add(Skill.dummySkills("Programmazione Java Sockets"));
+            skills.add(Skill.dummySkills(("programmazione in C")));
+            
+            Utente utente = Utente.dummyUtente(u.getId(), "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa", skills);
+            
+            return Response.ok(utente).build();
         } catch (Exception e) {
             throw new RESTWebApplicationException(e);
         }

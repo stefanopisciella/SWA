@@ -39,16 +39,24 @@ public class UtentiResource {
     public Response getAll(
             @QueryParam("skill1") Integer s1,
             @QueryParam("skill2") Integer s2,
-            @QueryParam("from") int from,
-            @QueryParam("to") int to) throws RESTWebApplicationException {
+            @QueryParam("from") Integer from,
+            @QueryParam("to") Integer to) throws RESTWebApplicationException {
 
-        List<String> l = new ArrayList();
+        if (from == null) {
+            from = 1;
+        }
+        if (to == null) {
+            to = 8;
+        }
+        if (from > to) {
+            int swap = from;
+            from = to;
+            to = swap;
+        }
         
-        /**
-         * riempire lista con oggetti 'utente' e ritornarla
-         */
-        List<Utente> utenti = UtenteManager.getUtenti(s1, s2);
-        return Response.ok(utenti).build();
+        UtenteManager.initilizeData();
+        List<Utente> u = UtenteManager.utenti;
+        return Response.ok(u).build();
     }
     
     /**
@@ -66,25 +74,28 @@ public class UtentiResource {
             @Context UriInfo uriinfo,
             Utente u) throws RESTWebApplicationException {
 
-        Utente utente = Utente.dummyUtente(u.getId(), u.getNome(), u.getCognome(), u.getEmail(), u.getTelefono(), u.getUsername(), u.getPassword());
+        Utente utente = Utente.dummyUtente(u.getId(), u.getNome(), u.getCognome(), u.getEmail(), u.getTelefono(), u.getUsername(), u.getPassword(), null);
         
+        // costruzione della URL di risposta per l'utente appena inserito
         URI uri = uriinfo.getBaseUriBuilder()
             .path(getClass())
             .path(getClass(), "getUser")
             .build(utente.getId());
         
-        /*
-        Costruzione della URL di risposta per l'utente appena inserito
-        */
+       
         
         // TODO: da sistemare la costruzione della URL!!
         /*URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
                 .path(getClass(), "getItem")
                 .build(f.getData().get(Calendar.YEAR), f.getNumero());*/
+        // Response.created(uri).
         
         return Response.created(uri).build();
+
     }
+    
+    
     
     /**
      * Estensione del path per gestire le operazioni su singolo utente
@@ -112,6 +123,7 @@ public class UtentiResource {
             //throw new RESTWebApplicationException(404, "Fattura non trovata");
             return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
         }*/
+        
         Utente u = new Utente();
         u.setId(id);
         return new UtenteResource(u);
