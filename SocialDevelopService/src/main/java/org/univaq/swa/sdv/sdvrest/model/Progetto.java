@@ -13,7 +13,7 @@ public class Progetto {
     private String nome;
     private String descrizione;
     private int valutazione;
-    private Utente coordiatore;
+    private Utente coordinatore;
 
     private static int cont = 1;
     
@@ -26,6 +26,7 @@ public class Progetto {
         
         nome = "";
         descrizione = "";
+        coordinatore = new Utente();
 
         tasks = new ArrayList<>();
         messaggi = new ArrayList<>();
@@ -82,12 +83,12 @@ public class Progetto {
         this.valutazione = valutazione;
     }
 
-    public Utente getCoordiatore() {
-        return coordiatore;
+    public Utente getCoordinatore() {
+        return coordinatore;
     }
 
-    public void setCoordiatore(Utente coordiatore) {
-        this.coordiatore = coordiatore;
+    public void setCoordinatore(Utente coordiatore) {
+        this.coordinatore = coordiatore;
     }
     
     public static Progetto dummyProgetto (int id, String nome, String descrizione) {
