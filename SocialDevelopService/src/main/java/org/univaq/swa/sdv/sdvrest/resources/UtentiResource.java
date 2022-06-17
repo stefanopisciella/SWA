@@ -114,6 +114,7 @@ public class UtentiResource {
         }*/
         Utente u = new Utente();
         u.setId(id);
+        u.setNome("A");
         return new UtenteResource(u);
     }
     

@@ -14,7 +14,6 @@ import jakarta.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
 import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
-import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.container.ContainerRequestContext;
@@ -27,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 import org.glassfish.jersey.server.Uri;
 import org.univaq.swa.sdv.sdvrest.data.MessaggioManager;
 import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
+import org.univaq.swa.sdv.sdvrest.security.Logged;
 
 public class MessaggiResource {
     
@@ -74,9 +74,51 @@ public class MessaggiResource {
         m2.setMittente(u2);
         
         ArrayList<Messaggio> messaggi = new ArrayList<>();
-        messaggi.add(m1);
-        messaggi.add(m2);
         
+        if (dI == null && dF == null){
+            messaggi.add(m1);
+            messaggi.add(m2);
+            return Response.ok(messaggi).build();
+        }
+        
+        // parsing stringhe rappresentanti date e ore in LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dataInizio = null, dataFine = null;
+        
+        if (dI != null){
+            dataInizio = LocalDate.parse(dI, formatter); 
+        }
+        
+        if (dF != null){
+            dataFine = LocalDate.parse(dF, formatter);
+        }
+        
+        // vari casi possibili
+        if (dI != null && dF == null){
+            if (m1.getDataOra().toLocalDate().equals(dataInizio) || m1.getDataOra().toLocalDate().isAfter(dataInizio)) messaggi.add(m1);
+            if (m2.getDataOra().toLocalDate().equals(dataInizio) || m2.getDataOra().toLocalDate().isAfter(dataInizio)) messaggi.add(m2);
+
+            if (messaggi.isEmpty()) throw new RESTWebApplicationException(404, "not found");
+            return Response.ok(messaggi).build();
+        }
+        
+        if (dI == null && dF != null){
+            if (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) messaggi.add(m1);
+            if (m2.getDataOra().toLocalDate().equals(dataFine) || m2.getDataOra().toLocalDate().isBefore(dataFine)) messaggi.add(m2);
+
+            if (messaggi.isEmpty()) throw new RESTWebApplicationException(404, "not found");
+            
+            return Response.ok(messaggi).build();
+        }
+        
+        if ( (m1.getDataOra().toLocalDate().equals(dataInizio) || m1.getDataOra().toLocalDate().isAfter(dataInizio))
+                    && (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) ) messaggi.add(m1);
+            
+        if ( (m2.getDataOra().toLocalDate().equals(dataInizio) || m2.getDataOra().toLocalDate().isAfter(dataInizio))
+                    && (m2.getDataOra().toLocalDate().equals(dataFine) || m2.getDataOra().toLocalDate().isBefore(dataFine)) ) messaggi.add(m2); 
+        
+        if (messaggi.isEmpty()) throw new RESTWebApplicationException(404, "not found");
+            
         return Response.ok(messaggi).build();
     }
     
@@ -84,10 +126,10 @@ public class MessaggiResource {
      * OP 14 - [BASE]/progetti/ID/messaggi
      * @param uriinfo
      * @param m
-     * @param idProgetto
      * @return
      * @throws RESTWebApplicationException 
      */
+    
     @Logged
     @POST
     @Consumes("application/json")
@@ -109,7 +151,10 @@ public class MessaggiResource {
         //int idUtente = (Integer) req.getProperty("IDutente");
         
         //UtenteMinimale u = UtenteManager.getUtenteByID(idUtente);
-      
+        
+        // debug
+        System.out.println("SONO QUI - POST MESSAGGI");
+        
         //m.setMittente(u);
         m.setId(10);
         p.getMessaggi().add(m);

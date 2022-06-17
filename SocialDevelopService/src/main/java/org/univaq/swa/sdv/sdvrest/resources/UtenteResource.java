@@ -23,10 +23,11 @@ import org.univaq.swa.sdv.sdvrest.model.*;
 
 public class UtenteResource {
     
-    private final Utente u;
+    private final Utente u;;
     
     UtenteResource(Utente u) {
         this.u = u;
+        UtenteManager.initilizeData();
     }
     
     /***

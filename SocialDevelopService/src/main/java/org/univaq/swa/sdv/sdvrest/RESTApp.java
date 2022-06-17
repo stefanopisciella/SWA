@@ -16,6 +16,7 @@ import org.univaq.swa.sdv.sdvrest.security.AppExceptionMapper;
 import org.univaq.swa.sdv.sdvrest.security.CORSFilter;
 import org.univaq.swa.sdv.sdvrest.resources.UtentiResource;
 import org.univaq.swa.sdv.sdvrest.security.AutenticazioneResource;
+import org.univaq.swa.sdv.sdvrest.security.LoggedFilter;
 
 /**
  *
@@ -37,6 +38,7 @@ public class RESTApp extends Application {
         //c.add(MessaggiResource.class);
         //c.add(TasksResource.class);
         c.add(AutenticazioneResource.class);
+        c.add(LoggedFilter.class);
 
         //aggiungiamo il provider Jackson per poter
         //usare i suoi servizi di serializzazione e 
