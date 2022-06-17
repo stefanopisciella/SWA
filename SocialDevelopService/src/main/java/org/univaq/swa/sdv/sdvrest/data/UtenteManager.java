@@ -20,9 +20,13 @@ public class UtenteManager {
     
     public static void initilizeData(){
         if (utenti.isEmpty()) {
-            utenti.add(Utente.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa"));
-            utenti.add(Utente.dummyUtente(1, "Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice"));
-            utenti.add(Utente.dummyUtente(1, "Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola"));
+            List<Skill> skills = new ArrayList<Skill>(); 
+            skills.add(Skill.dummySkills("Programmazione Java Sockets"));
+            skills.add(Skill.dummySkills(("programmazione in C")));
+            
+            utenti.add(Utente.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa", skills));
+            utenti.add(Utente.dummyUtente(1, "Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice", skills));
+            utenti.add(Utente.dummyUtente(1, "Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola", skills));
         }
     }
     
