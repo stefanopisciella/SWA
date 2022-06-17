@@ -43,18 +43,14 @@ public class LoggedFilter implements ContainerRequestFilter {
         if (token != null && !token.isEmpty()) {
             try {
                 //validiamo il token
-                final String user = validateToken(token);
-                if (user != null) {
-                    
-                    // giusto debug
-                    System.out.println("USER: " + user);
-                    
+                final Integer id = validateToken(token);
+                if (id != null) {
                     
                     //inseriamo nel contesto i risultati dell'autenticazione
                     //per farli usare dai nostri metodi restful
                     //iniettando @Context ContainerRequestContext
                     requestContext.setProperty("token", token);
-                    requestContext.setProperty("user", user);
+                    requestContext.setProperty("id", id);
                     //OPPURE
                     // https://dzone.com/articles/custom-security-context-injax-rs
                     //mettiamo i dati anche nel securitycontext standard di JAXRS...
@@ -73,7 +69,7 @@ public class LoggedFilter implements ContainerRequestFilter {
         }
     }
 
-    private String validateToken(String token) {
+    private Integer validateToken(String token) {
         //int userID;
 
         /*for(String t : TokenManager.tokens)
@@ -87,7 +83,7 @@ public class LoggedFilter implements ContainerRequestFilter {
         return null; // caso in cui il token non è stato trovato all'interno del TokenManager*/
         
         // torna lo username
-        return token.substring(36);
+        return 1; //Integer.parseInt(token.substring(36));
     }
 
 }

@@ -150,12 +150,13 @@ public class MessaggiResource {
         //u.setId(req.getProperty("userID"));
         //int idUtente = (Integer) req.getProperty("IDutente");
         
-        //UtenteMinimale u = UtenteManager.getUtenteByID(idUtente);
+        UtenteMinimale u = new UtenteMinimale();
+        u.setId((Integer)req.getProperty("id"));
+        u.setNome("Stefano");
+        u.setCognome("Pisciella");
+        u.setEmail("...@mail.com");
         
-        // debug
-        System.out.println("SONO QUI - POST MESSAGGI");
-        
-        //m.setMittente(u);
+        m.setMittente(u);
         m.setId(10);
         p.getMessaggi().add(m);
         

@@ -36,9 +36,10 @@ public class AutenticazioneResource {
             @FormParam("password") String password) {
                 
         try {
-            if (authenticate(username, password)) {
+            Integer id = authenticate(username, password);
+            if (id != null) {
                 /* per esempio */
-                String authToken = issueToken(uriinfo, username);
+                String authToken = issueToken(uriinfo, id);
 
                 //return Response.ok(authToken).build();
                 //return Response.ok().cookie(new NewCookie("token", authToken)).build();
@@ -102,14 +103,14 @@ public class AutenticazioneResource {
         }
     }
 
-    private boolean authenticate(String username, String password) {
-        if (username.equals("stefa") && password.equals("stefa")) return true;
-        return false;
+    private Integer authenticate(String username, String password) {
+        if (username.equals("stefa") && password.equals("stefa")) return 1;
+        return null;
     }
 
     // metodo per generare il token
-    private String issueToken(UriInfo context, String username) {
-        String token = UUID.randomUUID().toString() + username;
+    private String issueToken(UriInfo context, Integer id) {
+        String token = UUID.randomUUID().toString() + id;
         //TokenManager.tokens.add(token);
         return token;
     }
