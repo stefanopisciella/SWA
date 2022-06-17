@@ -106,15 +106,15 @@ public class MessaggiResource {
         //UtenteMinimale u = new UtenteMinimale();
         //UtenteManager.utenti.
         //u.setId(req.getProperty("userID"));
-        int idUtente = (Integer) req.getProperty("IDutente");
+        //int idUtente = (Integer) req.getProperty("IDutente");
         
-        UtenteMinimale u = UtenteManager.getUtenteByID(idUtente);
+        //UtenteMinimale u = UtenteManager.getUtenteByID(idUtente);
       
-        m.setMittente(u);
+        //m.setMittente(u);
         m.setId(10);
         p.getMessaggi().add(m);
         
-        System.out.println(u.getId());
+        //System.out.println(u.getId());
         
         URI uri = uriinfo.getBaseUriBuilder()                       // [BASE]/rest
                 .path(ProgettiResource.class)                       // /progetti

@@ -1,5 +1,7 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author nicola
@@ -21,6 +23,7 @@ public class UtenteMinimale {
         this.id = id;
     }
     
+    @JsonIgnore
     public int getId(){
         return this.id;
     }
