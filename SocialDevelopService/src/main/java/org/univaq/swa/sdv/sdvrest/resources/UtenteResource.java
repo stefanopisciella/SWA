@@ -37,7 +37,8 @@ public class UtenteResource {
     @GET
     @Produces("application/json")
     public Response getUserDetail() {
-         try {
+        UtenteManager.initilizeData();
+        try {
             return Response.ok(u).build();
         } catch (Exception e) {
             throw new RESTWebApplicationException(e);
