@@ -23,8 +23,8 @@ public class ProgettoManager {
     
     public List<Progetto> getListaProgetti() {
         // p1 ha la listTask1 che contiene s1
-        Progetto p1 = Progetto.dummyProgetto(0, "progetto1", "descrizione1");
-        Progetto p2 = Progetto.dummyProgetto(1, "progetto2", "descrizione2"); 
+        Progetto p1 = Progetto.dummyProgetto("progetto1", "descrizione1");
+        Progetto p2 = Progetto.dummyProgetto("progetto2", "descrizione2"); 
         Task t1 = Task.dummyTask("task1");
         Task t2 = Task.dummyTask("task2");
         List<Task> listTask1 = p1.getTasks();

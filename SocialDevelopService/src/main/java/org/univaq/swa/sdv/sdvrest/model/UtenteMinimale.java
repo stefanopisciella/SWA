@@ -19,6 +19,7 @@ public class UtenteMinimale {
         email = "";
     }
 
+    @JsonIgnore
     public void setId(int id) {
         this.id = id;
     }

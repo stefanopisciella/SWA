@@ -85,12 +85,12 @@ public class UtenteResource {
      */
     @Logged
     @DELETE
-    @Produces("application/json")
     public Response deleteUser() {
         
         // rimuovo dalla lista di utenti del sistema l'utente u se l'ID esiste (?)
         if(u.getId() > 0) {
-            UtenteManager.utenti.remove(u);
+            System.out.println(u);
+            UtenteManager.utenti.remove(u);  
         }
         
         return Response.noContent().build();
@@ -110,15 +110,15 @@ public class UtenteResource {
         Progetto p1 = new Progetto();
         p1.setNome("progetto 1 utente " + u.getId());
         p1.setDescrizione("descrizione progetto 1 utente " + u.getId());
-        p1.setValutazione(7);
+        //p1.setValutazione(7);
         Progetto p2 = new Progetto();
         p2.setNome("progetto 2 utente " + u.getId());
         p2.setDescrizione("descrizione progetto 2 utente " + u.getId());
-        p2.setValutazione(5);
+        //p2.setValutazione(5);
         Progetto p3 = new Progetto();
         p3.setNome("progetto 3 utente " + u.getId());
         p3.setDescrizione("descrizione progetto 3 utente " + u.getId());
-        p3.setValutazione(3);
+        //p3.setValutazione(3);
         
         ArrayList<Progetto> res = new ArrayList<>();
         res.add(p1);

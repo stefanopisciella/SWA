@@ -36,6 +36,11 @@ public class ProgettoResource {
     @Produces("application/json")
     public Response getProject() {
         try {
+            UtenteMinimale coordinatore = new UtenteMinimale();
+            coordinatore.setNome("Marco");
+            coordinatore.setCognome("Verdi");
+            coordinatore.setEmail("gggg@mail.com");
+            p.setCoordinatore(coordinatore);
             return Response.ok(p).build();
         } catch (Exception e) {
             throw new RESTWebApplicationException(e);
