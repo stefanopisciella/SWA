@@ -13,11 +13,12 @@ public class Progetto {
     private String nome;
     private String descrizione;
     private int valutazione;
-    
+    private Utente coordiatore;
+
     private static int cont = 1;
     
-    List<Task> tasks;
-    List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
+    private List<Task> tasks;
+    private List<Messaggio> messaggi; // lista di messaggi postati nel Progetto
 
     public Progetto () {
         id = cont;
@@ -79,6 +80,14 @@ public class Progetto {
 
     public void setValutazione(int valutazione) {
         this.valutazione = valutazione;
+    }
+
+    public Utente getCoordiatore() {
+        return coordiatore;
+    }
+
+    public void setCoordiatore(Utente coordiatore) {
+        this.coordiatore = coordiatore;
     }
     
     public static Progetto dummyProgetto (int id, String nome, String descrizione) {
