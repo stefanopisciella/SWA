@@ -55,13 +55,6 @@ public class ProgettoResource {
      */
     @Path("tasks")
     public TasksResource getTasks() {
-        
-        /*
-        estrazione dei task associati al progetto dal DB
-        */
-        
-        // TODO: costruzione risposta
-        //return Response.ok(pIVA).build();
         return new TasksResource(this.p);
     }
     

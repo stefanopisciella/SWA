@@ -82,15 +82,6 @@ public class UtentiResource {
             .path(getClass(), "getUser")
             .build(utente.getId());
         
-       
-        
-        // TODO: da sistemare la costruzione della URL!!
-        /*URI uri = uriinfo.getBaseUriBuilder()
-                .path(getClass())
-                .path(getClass(), "getItem")
-                .build(f.getData().get(Calendar.YEAR), f.getNumero());*/
-        // Response.created(uri).
-        
         return Response.created(uri).build();
 
     }
@@ -104,68 +95,12 @@ public class UtentiResource {
      */
     @Path("{id: [1-9]+}")
     public UtenteResource getUser(
-            @PathParam("id") int id
+            @PathParam("id") int idUtente
     ) {
         
-        /**
-         * estrazione dell'utente con ID=id dal DB
-         */
-        
-        // TODO: sistemare!!
-        //Utente u = ...;
-        //return new UtenteResource(u);
-        
-        /*if (anno >= 2020) {
-            //...prelevare la fattura f dal sistema...
-            Fattura f = Fattura.dummyFattura(numero, anno);
-            return new UtenteResource(f);
-        } else {
-            //throw new RESTWebApplicationException(404, "Fattura non trovata");
-            return null; //ritornare null da un metodo che restituisce una sotto-risorsa equivale a un 404
-        }*/
-        
         Utente u = new Utente();
-        u.setId(id);
-        u.setNome("A");
+        u.setId(idUtente);
         return new UtenteResource(u);
     }
     
-    //--------------------------------------------------------------------------
-
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAll(
-            @Context UriInfo uriinfo,
-            @QueryParam("p") String parametro) throws RESTWebApplicationException {
-
-        List<String> l = new ArrayList();
-        l.add("ciao1");
-        l.add("ciao2");
-
-        return Response.ok(l).build();
-    }
-*/
-    
-    /*@GET
-    @Path("{item: [0-9]+}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getItem(@PathParam("item") int itemID) {
-        if (itemID < 1000) {
-            // non presente
-            return Response.status(404).entity("item not found").build();
-        } else {
-            return Response.ok(itemID).build();
-        }
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addMe(
-            @Context UriInfo uriinfo, String payload) {
-        return Response.created(
-                uriinfo.getAbsolutePathBuilder()
-                        .path(this.getClass(), "getItem").build(1000))
-                .build();
-    } */
-
 }

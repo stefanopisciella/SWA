@@ -17,17 +17,18 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
+import java.util.HashMap;
+import java.util.Map;
 import org.univaq.swa.sdv.sdvrest.data.UtenteManager;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 
 public class UtenteResource {
     
-    private final Utente u;;
+    private final Utente u;
     
     UtenteResource(Utente u) {
         this.u = u;
-        UtenteManager.initilizeData();
     }
     
     /***
@@ -49,25 +50,6 @@ public class UtenteResource {
         } catch (Exception e) {
             throw new RESTWebApplicationException(e);
         }
-        
-        /*
-        estrae l'utente dal DB (ma non capisco come prendere l'ID)
-        */
-        
-        /*try {
-            return Response.ok(f)
-                    //possiamo aggiungere alla Response vari elementi, ad esempio header...
-                    .header("X-fattura-app-version", "1.0")
-                    .build();
-        } catch (Exception e) {
-            //gestione delle eccezioni (business):
-            //Modalità 1: creazione response di errore
-//            return Response.serverError()
-//                    .entity(e.getMessage()) //mai in produzione
-//                    .build();
-            //Modalità 2: incapsulamento in eccezione JAXRS compatibile
-            throw new RESTWebApplicationException(e);
-        }*/
     }
     
     /***
@@ -114,23 +96,25 @@ public class UtenteResource {
         
         if (u.getId() == 4) throw new RESTWebApplicationException(404, "utente non trovato");
         
-        Progetto p1 = new Progetto();
-        p1.setNome("progetto 1 utente " + u.getId());
-        p1.setDescrizione("descrizione progetto 1 utente " + u.getId());
-        //p1.setValutazione(7);
-        Progetto p2 = new Progetto();
-        p2.setNome("progetto 2 utente " + u.getId());
-        p2.setDescrizione("descrizione progetto 2 utente " + u.getId());
-        //p2.setValutazione(5);
-        Progetto p3 = new Progetto();
-        p3.setNome("progetto 3 utente " + u.getId());
-        p3.setDescrizione("descrizione progetto 3 utente " + u.getId());
-        //p3.setValutazione(3);
+        ArrayList<ProgettoUtente> res = new ArrayList<>();
         
-        ArrayList<Progetto> res = new ArrayList<>();
-        res.add(p1);
-        res.add(p2);
-        res.add(p3);
+        for (int i = 1; i <= 3; i++){
+            
+            UtenteMinimale uM = new UtenteMinimale();
+            u.setNome("Nome " + i);
+            u.setCognome("Cognome " + i);
+            u.setEmail("coord" + i + "@mail.com");
+            
+            Progetto p = new Progetto();
+            p.setNome("progetto " + i + " utente " + u.getId());
+            p.setDescrizione("descrizione progetto" + i + " utente " + u.getId());
+            p.setCoordinatore(uM);
+            
+            ProgettoUtente pU = new ProgettoUtente();
+            pU.setProgetto(p);
+            pU.setValutazione(10 - (i + 2));
+            res.add(pU);
+        }
         
         return Response.ok(res).build();
     }

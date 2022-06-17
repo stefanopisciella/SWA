@@ -3,6 +3,7 @@ package org.univaq.swa.sdv.sdvrest.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -84,6 +85,30 @@ public class Progetto {
     public void setCoordinatore(UtenteMinimale coordinatore) {
         this.coordinatore = coordinatore;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.nome);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Progetto other = (Progetto) obj;
+        return Objects.equals(this.nome, other.nome);
+    }
+
+    
     
     public static Progetto dummyProgetto (String nome, String descrizione) {
         

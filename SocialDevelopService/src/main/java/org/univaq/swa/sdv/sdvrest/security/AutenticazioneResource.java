@@ -31,48 +31,23 @@ public class AutenticazioneResource {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response doLogin(@Context UriInfo uriinfo,
-            //un altro modo per ricevere e iniettare i parametri con JAX-RS...
             @FormParam("username") String username,
             @FormParam("password") String password) {
                 
         try {
             Integer id = authenticate(username, password);
             if (id != null) {
-                /* per esempio */
+                
                 String authToken = issueToken(uriinfo, id);
 
-                //return Response.ok(authToken).build();
-                //return Response.ok().cookie(new NewCookie("token", authToken)).build();
                 return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
-                //Restituiamolo in tutte le modalità, giusto per fare un esempio..
-                /*return Response.ok(authToken)
-                        .cookie(new NewCookie("token", authToken))
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();*/
+                
             } else {
                 return Response.status(Response.Status.UNAUTHORIZED).build();
             }
         } catch (Exception e) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        
-        /*try {
-            if (authenticate(username, password)) {
-                
-                String authToken = issueToken(uriinfo, username);
-
-                //return Response.ok(authToken).build();
-                //return Response.ok().cookie(new NewCookie("token", authToken)).build();
-                //return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
-                //Restituiamolo in tutte le modalità, giusto per fare un esempio..
-                return Response.ok(authToken)
-                        .cookie(new NewCookie("token", authToken))
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + authToken).build();
-            } else {
-                return Response.status(Response.Status.UNAUTHORIZED).build();
-            }
-        } catch (Exception e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }*/
     }
 
     @Logged
@@ -108,7 +83,6 @@ public class AutenticazioneResource {
         return null;
     }
 
-    // metodo per generare il token
     private String issueToken(UriInfo context, Integer id) {
         String token = UUID.randomUUID().toString() + id;
         //TokenManager.tokens.add(token);

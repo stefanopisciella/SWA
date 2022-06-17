@@ -45,18 +45,8 @@ public class LoggedFilter implements ContainerRequestFilter {
                 //validiamo il token
                 final Integer id = validateToken(token);
                 if (id != null) {
-                    
-                    //inseriamo nel contesto i risultati dell'autenticazione
-                    //per farli usare dai nostri metodi restful
-                    //iniettando @Context ContainerRequestContext
                     requestContext.setProperty("token", token);
                     requestContext.setProperty("id", id);
-                    //OPPURE
-                    // https://dzone.com/articles/custom-security-context-injax-rs
-                    //mettiamo i dati anche nel securitycontext standard di JAXRS...
-                    //che può essere iniettato con @Context SecurityContext nei metodi
-                    //final SecurityContext originalSecurityContext = requestContext.getSecurityContext();
-
                 } else {
                     //se non va bene... 
                     requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());

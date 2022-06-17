@@ -34,10 +34,6 @@ public class MessaggiResource {
     
     public MessaggiResource(Progetto p){
         this.p = p;
-        
-       // DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-       // if (dI != null) dataInizio = LocalDate.parse(dI, formatter);
-       // if (dF != null) dataFine = LocalDate.parse(dF, formatter);
     }
     
     /***
@@ -137,18 +133,6 @@ public class MessaggiResource {
             @Context UriInfo uriinfo,
             Messaggio m,
             @Context ContainerRequestContext req) throws RESTWebApplicationException {
-
-        /*
-        Inserimento nuovo messaggio nel sistema
-        */
-        //MessaggioManager.getInstance().getMessaggi().add(m);
-        
-        //int id = (int) req.getProperty("IDutente");
-        
-        //UtenteMinimale u = new UtenteMinimale();
-        //UtenteManager.utenti.
-        //u.setId(req.getProperty("userID"));
-        //int idUtente = (Integer) req.getProperty("IDutente");
         
         UtenteMinimale u = new UtenteMinimale();
         u.setId((Integer)req.getProperty("id"));
