@@ -101,9 +101,9 @@ public class UtenteResource {
         for (int i = 1; i <= 3; i++){
             
             UtenteMinimale uM = new UtenteMinimale();
-            u.setNome("Nome " + i);
-            u.setCognome("Cognome " + i);
-            u.setEmail("coord" + i + "@mail.com");
+            uM.setNome("Nome " + i);
+            uM.setCognome("Cognome " + i);
+            uM.setEmail("coord" + i + "@mail.com");
             
             Progetto p = new Progetto();
             p.setNome("progetto " + i + " utente " + u.getId());
