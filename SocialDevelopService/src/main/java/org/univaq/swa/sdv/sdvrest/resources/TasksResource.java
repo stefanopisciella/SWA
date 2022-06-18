@@ -1,4 +1,5 @@
 package org.univaq.swa.sdv.sdvrest.resources;
+import com.fasterxml.jackson.core.TSFBuilder;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -66,6 +67,10 @@ public class TasksResource {
     @Path("{id: [1-9]+}/collaboratori")
     @Produces("application/json")
     public Response getCollabs(@PathParam("id") int idTask) throws WebApplicationException {
+        
+        Task t = new Task();
+        t.setId(idTask);
+
         
         UtenteMinimale u1 = new UtenteMinimale();
         u1.setNome("Oliver");

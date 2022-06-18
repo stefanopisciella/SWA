@@ -17,6 +17,7 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.ws.rs.core.UriBuilder;
 import java.net.URI;
@@ -38,7 +39,12 @@ public class MessaggiResource {
     
     /***
      * OP 13 - [BASE]/progetti/id/messaggi
-     * @param idProgetto
+     * @param from
+     * @param to
+     * @param dI
+     * @param dF
+     * @param headers
+     * @param req
      * @return
      * @throws RESTWebApplicationException 
      */
@@ -47,7 +53,12 @@ public class MessaggiResource {
     public Response getAll(@QueryParam("from") int from,
                            @QueryParam("to") int to,
                            @QueryParam("dataInizio") String dI,
-                           @QueryParam("dataFine") String dF) throws RESTWebApplicationException {
+                           @QueryParam("dataFine") String dF,
+                           @Context HttpHeaders headers) throws RESTWebApplicationException {
+        
+        //String token = (String) req.getProperty("token");
+        List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        System.out.println(authHeaders);
         
         Messaggio m1 = new Messaggio();
         m1.setPubblico(false);
@@ -68,11 +79,12 @@ public class MessaggiResource {
         u2.setCognome("Benway");
         u2.setEmail("jem_ben@mail.com");
         m2.setMittente(u2);
-        
+                
         ArrayList<Messaggio> messaggi = new ArrayList<>();
         
         if (dI == null && dF == null){
-            messaggi.add(m1);
+            // utente autenticato => può vedere messaggi privati
+            if (authHeaders != null) messaggi.add(m1);
             messaggi.add(m2);
             return Response.ok(messaggi).build();
         }
@@ -91,7 +103,9 @@ public class MessaggiResource {
         
         // vari casi possibili
         if (dI != null && dF == null){
-            if (m1.getDataOra().toLocalDate().equals(dataInizio) || m1.getDataOra().toLocalDate().isAfter(dataInizio)) messaggi.add(m1);
+            if (m1.getDataOra().toLocalDate().equals(dataInizio) || m1.getDataOra().toLocalDate().isAfter(dataInizio)) {
+                if (authHeaders != null) messaggi.add(m1);
+            }
             if (m2.getDataOra().toLocalDate().equals(dataInizio) || m2.getDataOra().toLocalDate().isAfter(dataInizio)) messaggi.add(m2);
 
             if (messaggi.isEmpty()) throw new RESTWebApplicationException(404, "not found");
@@ -99,7 +113,9 @@ public class MessaggiResource {
         }
         
         if (dI == null && dF != null){
-            if (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) messaggi.add(m1);
+            if (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) {
+                if (authHeaders != null) messaggi.add(m1);
+            }
             if (m2.getDataOra().toLocalDate().equals(dataFine) || m2.getDataOra().toLocalDate().isBefore(dataFine)) messaggi.add(m2);
 
             if (messaggi.isEmpty()) throw new RESTWebApplicationException(404, "not found");
@@ -108,7 +124,9 @@ public class MessaggiResource {
         }
         
         if ( (m1.getDataOra().toLocalDate().equals(dataInizio) || m1.getDataOra().toLocalDate().isAfter(dataInizio))
-                    && (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) ) messaggi.add(m1);
+                    && (m1.getDataOra().toLocalDate().equals(dataFine) || m1.getDataOra().toLocalDate().isBefore(dataFine)) ) {
+            if (authHeaders != null) messaggi.add(m1);
+        }
             
         if ( (m2.getDataOra().toLocalDate().equals(dataInizio) || m2.getDataOra().toLocalDate().isAfter(dataInizio))
                     && (m2.getDataOra().toLocalDate().equals(dataFine) || m2.getDataOra().toLocalDate().isBefore(dataFine)) ) messaggi.add(m2); 
@@ -122,6 +140,7 @@ public class MessaggiResource {
      * OP 14 - [BASE]/progetti/ID/messaggi
      * @param uriinfo
      * @param m
+     * @param req
      * @return
      * @throws RESTWebApplicationException 
      */

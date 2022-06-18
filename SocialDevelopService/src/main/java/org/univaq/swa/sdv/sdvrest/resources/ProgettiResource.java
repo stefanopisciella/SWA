@@ -17,15 +17,17 @@ import org.univaq.swa.sdv.sdvrest.RESTWebApplicationException;
 import org.univaq.swa.sdv.sdvrest.security.Logged;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.container.ContainerRequestContext;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import org.univaq.swa.sdv.sdvrest.model.*;
 
 @Path("progetti")
 public class ProgettiResource {
-    
+        
     /**
      * OP 7 - GET[BASE]/progetti
      * Metodo per l'estrazione di tutti i progetti nel sistema,
@@ -41,9 +43,9 @@ public class ProgettiResource {
      */
     @GET
     @Produces("application/json")
-    public /*List<Map<String, Object>>*/ Response getAll(
+    public Response getAll(
             @Context UriInfo uriinfo,
-            @QueryParam("nome") String nome,
+            @QueryParam("nomeProgetto") String nome,
             @QueryParam("skill1") String s1,
             @QueryParam("skill2") String s2,
             @QueryParam("from") Integer from,
@@ -70,7 +72,6 @@ public class ProgettiResource {
             // il progetto p non ha task, quindi p.getTask torna una lista vuota a cui aggiungo un task i  
             List<Task> listaTask = p.getTasks(); 
             Task t = Task.dummyTask("task" + i);
-            listaTask.add(t);
             // il task t non ha skill, quindi t.getSkill torna una lista vuota a cui aggiungo
             // la skill1 se i è minore o uguale a 5, la skill2 se i è maggiore
             if (i <= 5) {
@@ -78,6 +79,7 @@ public class ProgettiResource {
             } else {
                 t.getSkills().add(Skill.dummySkills("skill2"));
             }
+            listaTask.add(t);
             Map<String, Object> progetto = new HashMap<>();
             progetto.put("nome", p.getNome());
             progetto.put("descrizione", p.getDescrizione());
@@ -91,29 +93,46 @@ public class ProgettiResource {
             listaProgetti.add(progetto);
                 
         }
-        
+                
+        ArrayList<Map<String, Object>> res = new ArrayList<>();
+               
         if (s1 != null && s2 != null) {
             throw new RESTWebApplicationException(404, "progetto inesistente");
+        } else if (s1 == null && s2 == null) {
+            res = new ArrayList<>(listaProgetti);
         }
         
         if (s1 != null && s1.equals("skill1")) {
-            
-            ArrayList<Map<String, Object>> res = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
                 res.add(listaProgetti.get(i));
             }
-            return Response.ok(res).build();
         } 
-        
-        if (s2 != null && s2.equals("skill2")) {
-            ArrayList<Map<String, Object>> res = new ArrayList<>();
+        else if (s2 != null && s2.equals("skill2")) {
             for (int i = 5; i < lunghezza; i++) {
                 res.add(listaProgetti.get(i));
             }
-            return Response.ok(res).build();
         }
         
-        return Response.ok(listaProgetti).build();
+        if (nome != null) {
+            // per ogni oggetto della lista listaProgetti vedo se il nome contiene il nome che passo come query param,
+            // se si, lo inserisco in un res che restituisco alla fine dell'if
+            Iterator<Map<String, Object>> itr = res.iterator();
+            while (itr.hasNext()) {
+                Map<String, Object> temp = itr.next();
+                for (Map.Entry<String, Object> entry : temp.entrySet()) {
+                    if (entry.getKey().equals("nome")) {
+                        String name = (String)entry.getValue();
+                        if (!name.contains(nome)) {
+                            itr.remove();
+                        }
+                    }
+                }
+            }   
+        }
+        if (res.isEmpty()) {
+             throw new RESTWebApplicationException(404, "progetto inesistente");
+        }     
+        return Response.ok(res).build();
     }
     
     /***
@@ -121,6 +140,7 @@ public class ProgettiResource {
      * Metodo per l'inserimento di un nuovo progetto nel sistema
      * @param uriinfo
      * @param p
+     * @param req
      * @return
      * @throws RESTWebApplicationException 
      */
@@ -128,16 +148,26 @@ public class ProgettiResource {
     @POST
     @Consumes("application/json")
     public Response addProject(@Context UriInfo uriinfo,
-            Progetto p) throws RESTWebApplicationException {
+            Progetto p, @Context ContainerRequestContext req) throws RESTWebApplicationException {
 
         //creo il nuovo progetto
-        Progetto nuovoProg = Progetto.dummyProgetto(p.getNome(), p.getDescrizione());
+        //Progetto nuovoProg = Progetto.dummyProgetto(p.getNome(), p.getDescrizione());
+        UtenteMinimale coordinatore = new UtenteMinimale();
+        coordinatore.setId((Integer)req.getProperty("id"));
+        coordinatore.setNome("Beatrice");
+        coordinatore.setCognome("Tomassi");
+        coordinatore.setEmail("beatom@gmail.com");
+        
+        Progetto nuovoProg = new Progetto();
+        nuovoProg.setNome(p.getNome());
+        nuovoProg.setDescrizione(p.getDescrizione());
+        nuovoProg.setCoordinatore(coordinatore);
         
         URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())
                 .path(getClass(), "getProject")
                 .build(nuovoProg.getId());
-        
+
         return Response.created(uri).build();
     }
     
