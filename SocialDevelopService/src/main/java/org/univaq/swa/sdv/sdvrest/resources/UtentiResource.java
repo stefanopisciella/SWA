@@ -76,6 +76,7 @@ public class UtentiResource {
             Utente u) throws RESTWebApplicationException {
 
         Utente utente = Utente.dummyUtente(u.getId(), u.getNome(), u.getCognome(), u.getEmail(), u.getTelefono(), u.getUsername(), u.getPassword(), null);
+        UtenteManager.utenti.add(utente);
         
         // costruzione della URL di risposta per l'utente appena inserito
         URI uri = uriinfo.getBaseUriBuilder()
@@ -94,9 +95,9 @@ public class UtentiResource {
      * @param id
      * @return 
      */
-    @Path("{id: [1-9]+}")
+    @Path("{id: [1-9][0-9]*}")
     public UtenteResource getUser(
-            @PathParam("id") int idUtente
+            @PathParam("id") Integer idUtente
     ) {
         
         Utente u = new Utente();
