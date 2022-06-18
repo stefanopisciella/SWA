@@ -17,8 +17,18 @@ import org.univaq.swa.sdv.sdvrest.model.UtenteMinimale;
  */
 public class UtenteManager {
     public static List<Utente> utenti = new ArrayList<Utente>();
+    public static List<UtenteMinimale> utentiMinimali = new ArrayList<UtenteMinimale>();
     
     public static void initilizeData(){
+        if (utentiMinimali.isEmpty()) {
+
+            utentiMinimali.add(UtenteMinimale.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com"));
+            utentiMinimali.add(UtenteMinimale.dummyUtente(2, "Beatrice", "Tomassi", "beatrice@gmail.com"));
+            utentiMinimali.add(UtenteMinimale.dummyUtente(3, "Nicola", "Rossi", "nicola@gmail.com"));
+        }
+    }
+    
+     public static void initilizeDataMinimale(){
         if (utenti.isEmpty()) {
             List<Skill> skills = new ArrayList<Skill>(); 
             skills.add(Skill.dummySkills("Programmazione Java Sockets"));
