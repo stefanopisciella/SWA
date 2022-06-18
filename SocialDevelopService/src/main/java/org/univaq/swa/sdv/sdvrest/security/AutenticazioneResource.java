@@ -35,6 +35,9 @@ public class AutenticazioneResource {
             @FormParam("password") String password) {
                 
         try {
+            // inizializzazione dei dati e delle credenziali degli utenti registrati nel sistema
+            UtenteManager.initilizeData();
+            
             Integer id = authenticate(username, password);
             if (id != null) {
                 
@@ -79,18 +82,23 @@ public class AutenticazioneResource {
     }
 
     private Integer authenticate(String username, String password) {
-        if (username.equals("stefa") && password.equals("stefa")) return 1;
+        for (Utente utente : UtenteManager.utenti) {
+            if ( username.equals(utente.getUsername()) && password.equals(utente.getPassword())) {
+                return utente.getId();
+            }
+        }
+        
         return null;
     }
 
     private String issueToken(UriInfo context, Integer id) {
         String token = UUID.randomUUID().toString() + id;
-        //TokenManager.tokens.add(token);
+        TokenManager.tokens.add(token);
         return token;
     }
 
     private void revokeToken(String token) {
-        /*List<String> listaTokens = TokenManager.tokens; 
+        List<String> listaTokens = TokenManager.tokens; 
         Iterator<String> it = listaTokens.iterator();
         
         // rimuovo il token dalla lista di token presente in TokenManager
@@ -98,8 +106,6 @@ public class AutenticazioneResource {
             if(token.equals(it.next())) {
                 it.remove();
             }
-        }*/
-        
-        token = null;
+        }
     }
 }
