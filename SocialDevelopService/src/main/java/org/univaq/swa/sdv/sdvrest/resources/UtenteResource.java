@@ -44,7 +44,7 @@ public class UtenteResource {
             skills.add(Skill.dummySkills("Programmazione Java Sockets"));
             skills.add(Skill.dummySkills(("programmazione in C")));
             
-            Utente utente = Utente.dummyUtente(u.getId(), "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa", skills);
+            Utente utente = Utente.dummyUtente(u.getId(), "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefano", "stefano", skills);
             
             return Response.ok(utente).build();
         } catch (Exception e) {
