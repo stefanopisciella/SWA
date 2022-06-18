@@ -62,8 +62,13 @@ public class UtenteResource {
     @Consumes("application/json")
     public Response updateUser(Utente utente_nuovo) {
         
-        UtenteManager.utenti.remove(u);
-        UtenteManager.utenti.add(utente_nuovo);
+        u.setNome(utente_nuovo.getNome());
+        u.setCognome(utente_nuovo.getCognome());
+        u.setEmail(utente_nuovo.getEmail());
+        u.setUsername(utente_nuovo.getUsername());
+        u.setPassword(utente_nuovo.getPassword());
+        u.setTelefono(utente_nuovo.getTelefono());     
+        u.setSkills(utente_nuovo.getSkills());    
         
         return Response.noContent().build();
     }
