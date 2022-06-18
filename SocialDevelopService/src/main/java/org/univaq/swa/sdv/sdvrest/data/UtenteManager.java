@@ -24,9 +24,9 @@ public class UtenteManager {
             skills.add(Skill.dummySkills("Programmazione Java Sockets"));
             skills.add(Skill.dummySkills(("programmazione in C")));
             
-            utenti.add(Utente.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefa", "stefa", skills));
-            utenti.add(Utente.dummyUtente(1, "Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice", skills));
-            utenti.add(Utente.dummyUtente(1, "Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola", skills));
+            utenti.add(Utente.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com", "3880581680", "stefano", "stefano", skills));
+            utenti.add(Utente.dummyUtente(2, "Beatrice", "Tomassi", "beatrice@gmail.com", "3880581680", "beatrice", "beatrice", skills));
+            utenti.add(Utente.dummyUtente(3, "Nicola", "Rossi", "nicola@gmail.com", "3880581680", "nicola", "nicola", skills));
         }
     }
     
