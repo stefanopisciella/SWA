@@ -123,4 +123,5 @@ public class UtenteResource {
         
         return Response.ok(res).build();
     }
+    
 }
