@@ -42,11 +42,12 @@ public class UtentiResource {
             @QueryParam("from") Integer from,
             @QueryParam("to") Integer to) throws RESTWebApplicationException {
 
+        // controllo dei valori assegnati ai parametri FROM e TO
         if (from == null) {
             from = 1;
         }
         if (to == null) {
-            to = 8;
+            to = 9;
         }
         if (from > to) {
             int swap = from;
@@ -54,8 +55,8 @@ public class UtentiResource {
             to = swap;
         }
         
-        UtenteManager.initilizeData();
-        List<Utente> u = UtenteManager.utenti;
+        UtenteManager.initilizeDataMinimale();
+        List<UtenteMinimale> u = UtenteManager.utentiMinimali;
         return Response.ok(u).build();
     }
     
