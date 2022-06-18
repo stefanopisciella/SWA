@@ -69,7 +69,7 @@ public class UtenteResource {
         u.setPassword(utente_nuovo.getPassword());
         u.setTelefono(utente_nuovo.getTelefono());     
         u.setSkills(utente_nuovo.getSkills());    
-        
+
         return Response.noContent().build();
     }
     
@@ -81,7 +81,7 @@ public class UtenteResource {
     @DELETE
     public Response deleteUser() {
         
-        // rimuovo dalla lista di utenti del sistema l'utente u se l'ID esiste (?)
+        // rimuovo dalla lista di utenti del sistema l'utente u se l'ID esiste
         if(u.getId() > 0) {
             System.out.println(u);
             UtenteManager.utenti.remove(u);  
