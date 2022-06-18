@@ -42,7 +42,7 @@ public class LoggedFilter implements ContainerRequestFilter {
        
         if (token != null && !token.isEmpty()) {
             try {
-                //validiamo il token
+                // validazione del token
                 final Integer id = validateToken(token);
                 if (id != null) {
                     requestContext.setProperty("token", token);
@@ -60,20 +60,17 @@ public class LoggedFilter implements ContainerRequestFilter {
     }
 
     private Integer validateToken(String token) {
-        //int userID;
+        Integer userID;
 
-        /*for(String t : TokenManager.tokens)
+        for(String t : TokenManager.tokens)
             if (t.equals(token)) {
                 // il token è stato definito come concatenazione di un UUID (stringa fissa di 36 caratteri) e di un userID: per questo
                 // motivo lo userID coincide con la sottostringa di token che inizia dal suo 35° carattere e che finisce con l'ultimo 
                 // carattere del token
-                userID = Integer.parseInt(token.substring(35, token.length() - 1));
+                userID = Integer.parseInt(token.substring(35));
                 return userID; // caso in cui il token è valido e quindi è possibile estrarre lo userID dell'Utente 
             }
         return null; // caso in cui il token non è stato trovato all'interno del TokenManager*/
-        
-        // torna lo username
-        return 1; //Integer.parseInt(token.substring(36));
     }
 
 }
