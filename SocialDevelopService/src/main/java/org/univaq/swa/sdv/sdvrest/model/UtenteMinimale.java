@@ -1,6 +1,7 @@
 package org.univaq.swa.sdv.sdvrest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 
 /**
  *
@@ -12,8 +13,12 @@ public class UtenteMinimale {
     private String cognome;
     private String email;
     
+    private static int cont = 1;
+    
     public UtenteMinimale() {
-        id = 0;
+        id = cont;
+        cont ++;
+        
         nome = "";
         cognome = "";
         email = "";
@@ -53,6 +58,15 @@ public class UtenteMinimale {
         this.email = email;
     }
     
-    
+    public static UtenteMinimale dummyUtente (int id, String nome, String cognome, String email) {
+        UtenteMinimale utente = new UtenteMinimale();
+        
+        utente.setId(id);
+        utente.setNome(nome);
+        utente.setCognome(cognome);
+        utente.setEmail(email);
+        
+        return utente;
+    }
     
 }

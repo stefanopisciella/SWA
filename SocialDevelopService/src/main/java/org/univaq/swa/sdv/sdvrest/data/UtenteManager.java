@@ -17,8 +17,20 @@ import org.univaq.swa.sdv.sdvrest.model.UtenteMinimale;
  */
 public class UtenteManager {
     public static List<Utente> utenti = new ArrayList<Utente>();
+    public static List<UtenteMinimale> utentiMinimali = new ArrayList<UtenteMinimale>();
     
-    public static void initilizeData(){
+    public static void initilizeDataMinimale(){
+        if (utentiMinimali.isEmpty()) {
+
+            utentiMinimali.add(UtenteMinimale.dummyUtente(1, "Stefano", "Pisciella", "stefano@gmail.com"));
+            utentiMinimali.add(UtenteMinimale.dummyUtente(2, "Beatrice", "Tomassi", "beatrice@gmail.com"));
+            utentiMinimali.add(UtenteMinimale.dummyUtente(3, "Nicola", "Rossi", "nicola@gmail.com"));
+            // TO REMOVE
+            System.out.println(utentiMinimali.get(1).getNome());
+        }
+    }
+    
+     public static void initilizeData(){
         if (utenti.isEmpty()) {
             List<Skill> skills = new ArrayList<Skill>(); 
             skills.add(Skill.dummySkills("Programmazione Java Sockets"));
@@ -45,6 +57,7 @@ public class UtenteManager {
         
         throw new RESTWebApplicationException(404, "utente non trovato");
     }
+    
     
     public static List<Utente> getUtenti(Integer skill1, Integer skill2) {
         List<Utente> utentiIdonei= new ArrayList<Utente>();
