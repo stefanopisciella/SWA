@@ -58,7 +58,7 @@ public class UtenteMinimale {
         this.email = email;
     }
     
-    public static UtenteMinimale dummyUtenteMinimale (int id, String nome, String cognome, String email) {
+    public static UtenteMinimale dummyUtente (int id, String nome, String cognome, String email) {
         UtenteMinimale utente = new UtenteMinimale();
         
         utente.setId(id);
