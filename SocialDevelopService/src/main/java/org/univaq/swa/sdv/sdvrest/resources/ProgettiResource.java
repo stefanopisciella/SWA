@@ -63,11 +63,9 @@ public class ProgettiResource {
             to = swap;
         }     
         
-        //per i che va da from a to creo oggetti di tipo Progetto
-        
         List<Map<String, Object>> listaProgetti = new ArrayList();
-        int lunghezza = to;
-        for (int i = from; i <= to; ++i) {
+        //per i che va da from a to creo oggetti di tipo Progetto
+        for (int i = from; i <= to; i++) {
             Progetto p = Progetto.dummyProgetto("p" + i, "d" + i);
             // il progetto p non ha task, quindi p.getTask torna una lista vuota a cui aggiungo un task i  
             List<Task> listaTask = p.getTasks(); 
@@ -103,19 +101,26 @@ public class ProgettiResource {
         }
         
         if (s1 != null && s1.equals("skill1")) {
-            for (int i = 0; i < 5; i++) {
-                res.add(listaProgetti.get(i));
+            for (int i = from; i <= 5; i++) {
+                res.add(listaProgetti.get(i - from));
             }
         } 
-        else if (s2 != null && s2.equals("skill2")) {
-            for (int i = 5; i < lunghezza; i++) {
-                res.add(listaProgetti.get(i));
+        
+        if (s2 != null && s2.equals("skill2")) {
+            if (from <= 5) {
+                for (int i = 6; i <= to; i++) {
+                    res.add(listaProgetti.get(i - from));
+                }
+            } else {
+                for (int i = from; i <= to; i++) {
+                    res.add(listaProgetti.get(i - from));
+                }
             }
         }
         
         if (nome != null) {
-            // per ogni oggetto della lista listaProgetti vedo se il nome contiene il nome che passo come query param,
-            // se si, lo inserisco in un res che restituisco alla fine dell'if
+            // vedo se il nome NON contiene il nome che passo come query param,
+            // in caso affermativo (non lo contiene), lo rimuovo da res
             Iterator<Map<String, Object>> itr = res.iterator();
             while (itr.hasNext()) {
                 Map<String, Object> temp = itr.next();
@@ -150,8 +155,7 @@ public class ProgettiResource {
     public Response addProject(@Context UriInfo uriinfo,
             Progetto p, @Context ContainerRequestContext req) throws RESTWebApplicationException {
 
-        //creo il nuovo progetto
-        //Progetto nuovoProg = Progetto.dummyProgetto(p.getNome(), p.getDescrizione());
+        //creo il nuovo utente e progetto
         UtenteMinimale coordinatore = new UtenteMinimale();
         coordinatore.setId((Integer)req.getProperty("id"));
         coordinatore.setNome("Beatrice");
@@ -162,6 +166,8 @@ public class ProgettiResource {
         nuovoProg.setNome(p.getNome());
         nuovoProg.setDescrizione(p.getDescrizione());
         nuovoProg.setCoordinatore(coordinatore);
+        
+        System.out.println(nuovoProg);
         
         URI uri = uriinfo.getBaseUriBuilder()
                 .path(getClass())

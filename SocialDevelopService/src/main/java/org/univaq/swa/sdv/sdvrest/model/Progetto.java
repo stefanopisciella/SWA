@@ -108,7 +108,12 @@ public class Progetto {
         return Objects.equals(this.nome, other.nome);
     }
 
-    
+    @Override
+    public String toString() {
+        return "Progetto{" + "id=" + id + ", nome=" + nome + ", descrizione=" + descrizione + 
+                ", nome coordinatore=" + coordinatore.getNome() + ", cognome coordinatore=" + coordinatore.getCognome() + '}';
+    }
+
     
     public static Progetto dummyProgetto (String nome, String descrizione) {
         
