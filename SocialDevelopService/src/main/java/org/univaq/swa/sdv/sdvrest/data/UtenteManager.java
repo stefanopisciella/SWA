@@ -58,6 +58,7 @@ public class UtenteManager {
         throw new RESTWebApplicationException(404, "utente non trovato");
     }
     
+    
     public static List<Utente> getUtenti(Integer skill1, Integer skill2) {
         List<Utente> utentiIdonei= new ArrayList<Utente>();
        
