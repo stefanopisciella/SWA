@@ -166,6 +166,7 @@ public class ProgettiResource {
         nuovoProg.setNome(p.getNome());
         nuovoProg.setDescrizione(p.getDescrizione());
         nuovoProg.setCoordinatore(coordinatore);
+        nuovoProg.setId(20);
         
         System.out.println(nuovoProg);
         
