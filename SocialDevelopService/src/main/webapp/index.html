@@ -1,28 +1,232 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title>SDS</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    </head>
-    <body>
-        <h1>SDS</h1>
-        <h2>Endpoint richiamabili dal browser (GET)</h2>
-        <ul>
-            <li><a href="rest/auth/login">OP 1 - login</a><br/><small><i>rest/auth/login</i></small></li>
-            <li><a href="rest/auth/logout">OP 1 - logout</a><br/><small><i>rest/auth/logout</i></small></li>
-            <li><a href="rest/utenti">OP 2 - lista utenti noti al sistema, filtro opzionale sulle loro skills</a><br/><small><i>rest/utenti</i></small></li>
-            <li><a href="rest/utenti">OP 3 - inserimento nuovo utente nel sistema</a><br/><small><i>rest/utenti</i></small></li>
-            <li><a href="rest/utenti/1/dettaglio">OP 4 - dettaglio profilo utente</a><br/><small><i>/rest/utenti/1/dettaglio</i></small></li>
-            <li><a href="rest/utenti/1">OP 5 - aggiornamento dati utente</a><br/><small><i>rest/utenti/1</i></small></li>
-            <li><a href="rest/utenti/1">OP 6 - eliminazione utente dal sistema</a><br/><small><i>rest/utenti/1</i></small></li>
-            <li><a href="rest/progetti">OP 7 - lista progetti nel sistema, filtro opzionale su PARTE del nome E/O a una lista di skills associate ai suoi task</a><br/><small><i>rest/progetti</i></small></li>
-            <li><a href="rest/progetti">OP 8 - inserimento nuovo progetto</a><br/><small><i>rest/progetti</i></small></li>
-            <li><a href="rest/progetti/1/dettaglio">OP 9 - lettura informazioni associate a un progetto</a><br/><small><i>rest/progetti/1/dettaglio</i></small></li>
-            <li><a href="rest/progetti/2/tasks">OP 10 - lista dei task associati a progetto</a><br/><small><i>rest/progetti/2/tasks</i></small></li>
-            <li><a href="rest/progetti/1/tasks/2/collaboratori">OP 11 - lista collaboratori associati a un task di un progetto </a><br/><small><i>rest/progetti/1/tasks/2/collaboratori</i></small></li>
-            <li><a href="rest/utenti/1/progetti">OP 12 - lista progetti su cui uno sviluppatore lavora/ha lavorato (con valutazione)</a><br/><small><i>rest/utenti/1/progetti</i></small></li>
-            <li><a href="rest/progetti/1/messaggi?dataInizio=2021-05-01&dataFine=2021-12-31">OP 13 - Lista messaggi inseriti in un progetto (filtro su data inizio e fine)</a><br/><small><i>rest/progetti/1/messaggi?dataInizio=2021-05-01&amp;dataFine=2021-12-31</i></small></li>
-            <li><a href="rest/progetti/2/messaggi">OP 14 - inserimento di un nuovo messaggio in un progetto</a><br/><small><i>rest/progetti/2/messaggi</i></small></li>
-        </ul>
-    </body>
+	<head>
+		<meta charset="utf-8">
+		<title>SDS</title>	
+		<link rel="stylesheet" href="style.css"/>
+		
+		
+		<style>	
+		.tabs > nav > ul {overflow:hidden; margin:0; padding:0; list-style:none;}
+		.tabs > nav > ul > li {float:left; border-top: 2px solid #00695c; border-left: 1px solid #00695c; border-right: 1px solid #00695c; margin-right:2px; padding:2px; cursor: pointer;}
+		.tabs > nav > ul > li.active {color: white; background-color: #00695c;}
+		.tabs .tabcontent {border: 2px solid #00695c; padding:2px; }
+		.tabs .tabcontent > section {display:none; }
+		.tabs .tabcontent > section.active {display:block}		
+		/* impostazioni accessibili */
+		.tabs.v1bis > nav {display:none;}
+		.tabs.v1bis .tabcontent > section {display:block; }
+		.tabs.v1bis.enabled > nav {display:block;}
+		.tabs.v1bis.enabled .tabcontent > section {display:none}		
+		.tabs.v1bis.enabled .tabcontent > section.active {display:block}		
+		</style>
+		
+		<script src="jquery.min.js">/* */</script>
+		
+		
+		<script>
+			// attende che la pagina web carichi completamente 
+			$(document).ready(function(){	
+				// attende che il paragrafo corrispondente all'operazione OP4 venga clickato
+				$( "#trigger_visualizzazione_dettaglio" ).click(function() {
+						// fa la request del file JSON contente i dettagli del profilo utente
+						$.get('http://localhost:8080/SocialDevelopService/rest/utenti/1/dettaglio', function (data, textStatus, jqXHR) {
+        				$('#nome').append(data.nome);
+						$('#cognome').append(data.cognome);
+						$('#email').append(data.email);
+						$('#telefono').append(data.telefono);
+						$('#skill1').append(data.skills[0].nome);
+						$('#skill2').append(data.skills[1].nome);
+
+						// una volta caricato il JSON, fa visualizzare il <div> contente i dettagli del profilo utente
+						$("#dettaglio_profilo_utente").removeAttr('hidden');
+					});
+				});
+
+			});		
+				
+			
+		
+		
+			
+		
+	
+		
+		
+		//questa funzione lavora su una struttura ben definita di HTML + CSS, e ne sfrutta
+		//le caratteristiche (classi, tag, attributi) per manipolarla in maniera semplice e aggiungere
+		//la dinamica del "tabbed panel"
+		function makeTabs(container) {
+			var tabcontainer = $(container);
+			//la classe enabled è utile per "marcare" un elemento
+			//su cui lo script sta operando. Nel nostro caso, le linguette nei container
+			//marcati con questa classe sono nascoste di default, mentre se la classe manca sono visibili.
+			//In questo modo, se lo script non intervene, i contenuti saranno comunque visibili all'utente.
+			tabcontainer.addClass("enabled");
+			//agganciamo la logica all'evento click sulla linguetta
+			//con un handler su ogni tab:
+			//$("[role='tablist'] > [role='tab']",tabcontainer).click(function(){ 
+			//oppure cone la event delegation, che rende l'operazione acora più snella:
+			$("[role='tablist']",tabcontainer).on("click","[role='tab']",function(){ 
+				// QUI
+				$("button").click(function(){
+            	var pageURL = $(location).attr("href");
+            	alert(pageURL);
+       			 });
+				
+				var tab = $(this);
+				if (tab.hasClass("active")) return;
+				var tabid = tab.attr("aria-controls");
+				var panel = $("#"+tabid,tabcontainer);
+			
+				//lo script non mostra o nasconde nulla direttamente: tutta la dinamica è ottenuta manipolando le classi
+				//agganciate ai vari elementi, e lasciando che siano i selettori e le regole CSS a fare il resto
+				$("[role='tablist'] > [role='tab']", tabcontainer).attr("aria-selected","false").removeClass("active"); 
+				tab.attr("aria-selected","true").addClass("active");  
+				$("[role='tabpanel']",tabcontainer).attr("aria-hidden","true").removeClass("active");  
+				panel.attr("aria-hidden","false").addClass("active");  
+				//questo evento custom non viene utilizzato dallo script: potrà essere catturato dall'esterno
+				//per agganciare logica ulteriore all'evento di "cambio tab"
+				tabcontainer.trigger("awdtabs:change",tab);
+				//RICEVENTE: $(document).on("awdtabs:change",function(e,a2){comsole.log(a2)})
+			});
+		}
+		
+		//la funzione che segue prima manipola il container per creare tutto il
+		//markup richiesto da un tabcontainer "standard", poi richiama makeTabs
+		//per attivarlo
+		function makeTabs2(container) {
+			var tabcontainer = $(container);			
+			if (tabcontainer.hasClass("tabs")) {					
+				var tablist = $("<ul role='tablist'/>");	
+				var panels = $("> section",tabcontainer);
+				if (panels.filter(".active").length==0) panels.first().addClass("active");
+				panels.wrapAll("<div class='tabcontent'/>");
+				panels.each(function(){    
+				   var uid=Math.floor(Math.random() * 26) + Date.now();	
+				   var panel = $(this)
+				   //jQuery non ha un metodo hasAttribute, quindi usiamo quello del DOM 
+				   //estraendo l'oggetto DOM dall'array...
+				   var tabid = (panel[0].hasAttribute("id") ? panel.attr("id") : ("tabx"+(uid)));
+				   var tabtitle = (panel[0].hasAttribute("data-label") ? 
+					panel.attr("data-label") : 
+					(panel.has("header").length>0?
+						$("header",panel).text():
+						"Tab "+(panel.index()+1)));
+				   var tab = $("<li role='tab'/>");	
+				   tab.attr("aria-controls",tabid);
+				   tab.text(tabtitle); 
+				   panel.attr("id",tabid);
+				   panel.attr("role","tabpanel");
+				   if (panel.hasClass("active")) {
+					 tab.addClass("active");
+					 tab.attr("aria-selected","true");
+					 panel.attr("aria-hidden","false");
+				   } else {
+					 tab.attr("aria-selected","false");
+					 panel.attr("aria-hidden","true");    
+				   }				   				  
+				   tablist.append(tab);
+				  });			  
+				tabcontainer.prepend($("<nav/>").append(tablist));
+				makeTabs(container);
+			}	
+		}
+	
+
+		$(function() {
+		
+			//agganciamo come estensione di JQeury una funzione che richiama la nostra makeTabs su tutti gli elementi selezionati
+			//ritorniamo this (restituito a sua volta da thiseach) per permettere la concatenazione dei metodi di JQuery			
+			jQuery.fn["awdTabs"] = function(){return this.each(function(){makeTabs(this)})};
+			//oppure jQuery.fn.extend({awdTabs: function(){return this.each(function(){makeTabs(this)})}});
+			
+			/*---------------------------------------------------------*/
+			
+			//usiamo l'estensione di JQuery appena definita
+			$(".tabs.v0:first").awdTabs();
+			
+			/*---------------------------------------------------------*/
+				
+			//oppure popssiamo chuiamare direttamente la nostra funzione su oggetti DOM selezionati con JQuery
+			$(".tabs.v1").each(function(){ 
+				makeTabs(this);
+			});
+			
+			/*---------------------------------------------------------*/
+			
+			$(".tabs.v1bis").each(function(){ 
+				makeTabs(this);
+			});
+			
+			
+			/*---------------------------------------------------------*/
+			
+			$(".tabs.v2").each(function(){ 
+				makeTabs2(this);
+			});
+			
+			/*---------------------------------------------------------*/
+			
+			$(document).on("awdtabs:change",function(e,a2){console.log(a2)})
+		});
+
+		</script>
+</head>
+
+<body>
+	<h2>SocialDevelopServices</h2>
+		<p><em>Operazioni effettuabili tramite browser</em></p>
+<div class="esempio">
+	<div class="rendering">
+<div class="tabs v2">
+	<section id="tab_utente" data-label="Utenti">
+		<header><h4>Operazioni su Utente</h4></header>
+		
+		<li class="operazione"><a href="rest/utenti">OP 2 - lista utenti noti al sistema, filtro opzionale sulle loro skills</a><br/><small><i>rest/utenti</i></small>
+		</li>
+		<li class="operazione"><a href="rest/utenti">OP 3 - inserimento nuovo utente nel sistema</a><br/><small><i>rest/utenti</i></small></li>
+		<li class="operazione" id="trigger_visualizzazione_dettaglio"><p href="rest/utenti/1/dettaglio">OP 4 - dettaglio profilo utente<small><i></br>/rest/utenti/1/dettaglio</i></small></p></li>
+		<li class="operazione"><a href="rest/utenti/1">OP 5 - aggiornamento dati utente</a><br/><small><i>rest/utenti/1</i></small></li>
+		<li class="operazione"><a href="rest/utenti/1">OP 6 - eliminazione utente dal sistema</a><br/><small><i>rest/utenti/1</i></small></li>
+		<li class="operazione"><a href="rest/utenti/1/progetti">OP 12 - lista progetti su cui uno sviluppatore lavora/ha lavorato (con valutazione)</a><br/><small><i>rest/utenti/1/progetti</i></small></li>
+	</section>
+	
+	<section data-label="Progetti">
+		<header><h4>Operazioni su Progetto</h4></header>
+		
+		<li class="operazione"><a href="rest/progetti">OP 7 - lista progetti nel sistema, filtro opzionale su PARTE del nome E/O a una lista di skills associate ai suoi task</a><br/><small><i>rest/progetti</i></small></li>
+		<li class="operazione"><a href="rest/progetti">OP 8 - inserimento nuovo progetto</a><br/><small><i>rest/progetti</i></small></li>
+		<li class="operazione"><a href="rest/progetti/1/dettaglio">OP 9 - lettura informazioni associate a un progetto</a><br/><small><i>rest/progetti/1/dettaglio</i></small></li>
+	</section>
+	
+	<section data-label="Task">
+		<header><h4>Operazioni su Task</h4></header>
+		
+		<li class="operazione"><a href="rest/progetti/2/tasks">OP 10 - lista dei task associati a progetto</a><br/><small><i>rest/progetti/2/tasks</i></small></li>
+		<li class="operazione"><a href="rest/progetti/1/tasks/2/collaboratori">OP 11 - lista collaboratori associati a un task di un progetto </a><br/><small><i>rest/progetti/1/tasks/2/collaboratori</i></small></li>		
+	</section>
+
+	<section data-label="Messaggi">
+		<header><h4>Operazioni su Messaggio</h4></header>
+		
+		<li class="operazione"><a href="rest/progetti/1/messaggi?dataInizio=2021-05-01&dataFine=2021-12-31">OP 13 - Lista messaggi inseriti in un progetto (filtro su data inizio e fine)</a><br/><small><i>rest/progetti/1/messaggi?dataInizio=2021-05-01&amp;dataFine=2021-12-31</i></small></li>
+		<li class="operazione"><a href="rest/progetti/2/messaggi">OP 14 - inserimento di un nuovo messaggio in un progetto</a><br/><small><i>rest/progetti/2/messaggi</i></small></li>
+	</section>
+</div>
+
+<div id="dettaglio_profilo_utente" hidden>
+		<header><h4>OP 4 - dettaglio profilo utente</h4></header>
+		<li class="elenco">Nome: <mark id="nome"> </mark> </li>
+		<li class="elenco">Cognome: <mark id="cognome"> </mark> </li>
+		<li class="elenco">email: <mark id="email"> </mark> </li>
+		<li class="elenco">telefono: <mark id="telefono"> </mark> </li>
+		<br>
+		<li class="elenco">skill1: <mark id="skill1"> </mark> </li>
+		<li class="elenco">skill2: <mark id="skill2"> </mark> </li>
+</div>
+
+
+
+</body>
 </html>
