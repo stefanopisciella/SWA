@@ -111,6 +111,22 @@ h3 {
 	list-style: none;
 }
 
+#nome {
+	color: green;
+}
+
+
+#cognome {
+	color: red;
+}
+
+#telefono {
+	color : blue;
+}
+
+#skill1, #skill2{
+	font-style: oblique;
+}
 
 
 
