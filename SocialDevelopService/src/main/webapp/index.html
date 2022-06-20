@@ -27,22 +27,36 @@
 		<script>
 			// attende che la pagina web carichi completamente 
 			$(document).ready(function(){	
+				// attende che il mouse punti il paragrafo corrispondende all'operazione OP4
+				$( "#trigger_visualizzazione_dettaglio" ).mousemove(function() {
+					// modifica il cursore
+					$( "#trigger_visualizzazione_dettaglio" ).css("cursor","pointer");
+				});
+				
 				// attende che il paragrafo corrispondente all'operazione OP4 venga clickato
 				$( "#trigger_visualizzazione_dettaglio" ).click(function() {
 						// fa la request del file JSON contente i dettagli del profilo utente
 						$.get('http://localhost:8080/SocialDevelopService/rest/utenti/1/dettaglio', function (data, textStatus, jqXHR) {
-        				$('#nome').append(data.nome);
-						$('#cognome').append(data.cognome);
-						$('#email').append(data.email);
-						$('#telefono').append(data.telefono);
-						$('#skill1').append(data.skills[0].nome);
-						$('#skill2').append(data.skills[1].nome);
+        					// scrive i dati presenti nel JSON nelle rispettive voci dell'elenco del profilo utente
+							$('#nome').text(data.nome);
+							$('#cognome').text(data.cognome);
+							$('#email').text(data.email);
+							$('#telefono').text(data.telefono);
+							$('#skill1').text(data.skills[0].nome);
+							$('#skill2').text(data.skills[1].nome);
 
-						// una volta caricato il JSON, fa visualizzare il <div> contente i dettagli del profilo utente
-						$("#dettaglio_profilo_utente").removeAttr('hidden');
-					});
+							// una volta caricato il JSON, fa visualizzare il <div> contente i dettagli del profilo utente
+							$( "#dettaglio_profilo_utente" ).fadeToggle("slow", function() {
+								// si visualizzerano a cascata i vari dati del profilo utente
+								$( "#nome" ).fadeToggle(400);
+								$( "#cognome" ).fadeToggle(500);
+								$( "#email" ).fadeToggle(600);
+								$( "#telefono" ).fadeToggle(700);
+								$( "#skill1" ).fadeToggle(900);
+								$( "#skill2" ).fadeToggle(900);
+							});
+						});
 				});
-
 			});		
 				
 			
@@ -183,27 +197,27 @@
 	<section id="tab_utente" data-label="Utenti">
 		<header><h4>Operazioni su Utente</h4></header>
 		
-		<li class="operazione"><a href="rest/utenti">OP 2 - lista utenti noti al sistema, filtro opzionale sulle loro skills</a><br/><small><i>rest/utenti</i></small>
+		<li class="operazione hide"><a href="rest/utenti">OP 2 - lista utenti noti al sistema, filtro opzionale sulle loro skills</a><br/><small><i>rest/utenti</i></small>
 		</li>
-		<li class="operazione" id="trigger_visualizzazione_dettaglio"><p href="rest/utenti/1/dettaglio">OP 4 - dettaglio profilo utente<small><i></br>/rest/utenti/1/dettaglio</i></small></p></li>
-		<li class="operazione"><a href="rest/utenti/1/progetti">OP 12 - lista progetti su cui uno sviluppatore lavora/ha lavorato (con valutazione)</a><br/><small><i>rest/utenti/1/progetti</i></small></li>
+		<li class="operazione hide" id="trigger_visualizzazione_dettaglio"><p href="rest/utenti/1/dettaglio">OP 4 - dettaglio profilo utente<small><i></br>/rest/utenti/1/dettaglio</i></small></p></li>
+		<li class="operazione hide"><a href="rest/utenti/1/progetti">OP 12 - lista progetti su cui uno sviluppatore lavora/ha lavorato (con valutazione)</a><br/><small><i>rest/utenti/1/progetti</i></small></li>
 	</section>
 	
-	<section data-label="Progetti">
+	<section data-label="Progetti" class="hide">
 		<header><h4>Operazioni su Progetto</h4></header>
 		
 		<li class="operazione"><a href="rest/progetti">OP 7 - lista progetti nel sistema, filtro opzionale su PARTE del nome E/O a una lista di skills associate ai suoi task</a><br/><small><i>rest/progetti</i></small></li>
 		<li class="operazione"><a href="rest/progetti/1/dettaglio">OP 9 - lettura informazioni associate a un progetto</a><br/><small><i>rest/progetti/1/dettaglio</i></small></li>
 	</section>
 	
-	<section data-label="Task">
+	<section data-label="Task" class="hide">
 		<header><h4>Operazioni su Task</h4></header>
 		
 		<li class="operazione"><a href="rest/progetti/2/tasks">OP 10 - lista dei task associati a progetto</a><br/><small><i>rest/progetti/2/tasks</i></small></li>
 		<li class="operazione"><a href="rest/progetti/1/tasks/2/collaboratori">OP 11 - lista collaboratori associati a un task di un progetto </a><br/><small><i>rest/progetti/1/tasks/2/collaboratori</i></small></li>		
 	</section>
 
-	<section data-label="Messaggi">
+	<section data-label="Messaggi" class="hide">
 		<header><h4>Operazioni su Messaggio</h4></header>
 		
 		<li class="operazione"><a href="rest/progetti/1/messaggi?dataInizio=2021-05-01&dataFine=2021-12-31">OP 13 - Lista messaggi inseriti in un progetto (filtro su data inizio e fine)</a><br/><small><i>rest/progetti/1/messaggi?dataInizio=2021-05-01&amp;dataFine=2021-12-31</i></small></li>
@@ -212,13 +226,13 @@
 
 <div id="dettaglio_profilo_utente" hidden>
 		<header><h4>OP 4 - dettaglio profilo utente</h4></header>
-		<li class="elenco">Nome: <mark id="nome"> </mark> </li>
-		<li class="elenco">Cognome: <mark id="cognome"> </mark> </li>
-		<li class="elenco">email: <mark id="email"> </mark> </li>
-		<li class="elenco">telefono: <mark id="telefono"> </mark> </li>
+		<li class="elenco">Nome: <span id="nome" hidden> </span> </li>
+		<li class="elenco">Cognome: <span id="cognome" hidden> </span> </li>
+		<li class="elenco">email: <a id="email" href="" hidden> </a> </li>
+		<li class="elenco">telefono: <span id="telefono" hidden> </span> </li>
 		<br>
-		<li class="elenco">skill1: <mark id="skill1"> </mark> </li>
-		<li class="elenco">skill2: <mark id="skill2"> </mark> </li>
+		<li class="elenco">skill1: <span id="skill1" hidden> </span> </li>
+		<li class="elenco">skill2: <span id="skill2" hidden> </span> </li>
 </div>
 
 
