@@ -57,18 +57,7 @@ public class AutenticazioneResource {
     @DELETE
     @Path("/logout")
     public Response doLogout(@Context HttpServletRequest request) {
-        /*try {
-            //estraiamo i dati inseriti dal nostro LoggedFilter...
-            // TO CHECK
-            String token = (String) request.getAttribute("token");
-            if (token != null) {
-                revokeToken(token);
-                return Response.status(Response.Status.OK).build();
-            }
-        } catch (Exception e) {
-            return Response.serverError().build();
-        }
-        return Response.status(Response.Status.NO_CONTENT).build();*/
+        
         try {
             //estraiamo i dati inseriti dal nostro LoggedFilter...
             String token = (String) request.getAttribute("token");
